@@ -6,7 +6,7 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-
+<!-- Sticky navigation bar - appears on every page for consistent site navigation -->
   <nav class="top-nav">
     <span class="site-title">Small Steps Aotearoa</span>
     <div class="nav-links">
@@ -16,7 +16,69 @@
       <a href="actions.html">Actions</a>
     </div>
   </nav>
-
+  <!-- Hero section - large intro banner with the site's main tagline -->
+  <section class="hero">
+    <div class="hero-text">
+      <p class="voice">The wild city you haven't noticed yet</p>
+      <span>Scroll ↓</span>
+    </div>
+   <!-- About section - brief explanation of the site's purpose for first-time visitors --> 
+  </section>
+  <section class="about">
+    <div class="about-text">
+      <p class="voice">About the website</p>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam ut quam eget enim porta consectetur et ut dolor. Suspendisse venenatis vestibulum eros ut ullamcorper. In ac sodales libero. Quisque convallis tristique lacus a lacinia. Integer pretium ante vitae massa mollis, nec ultricies mi mattis. Donec aliquet eros eget diam suscipit ornare. Sed euismod porta quam id tempus. Integer lacinia vel nisl vitae semper. Aliquam ut velit dictum, rutrum lorem sed, faucibus justo. Nunc scelerisque nec augue ac porttitor. Quisque ut fermentum orci. Sed ac sagittis ipsum. Donec vestibulum eros sed mattis finibus.</p>
+    </div>
+    <!-- Explore section - card links that direct users to the three other main pages, stylistic design -->
+  </section>
+  <section class="explore">
+    <h2 class="voice">Explore</h2>
+    <div class ="cards">
+      <a href="species.html" class="explore-card-link">Meet the locals</a>
+      <a href="actions.html" class="explore-card-link">Small steps</a>
+      <a href="quiz.html" class="explore-card-link">Quiz</a>
+    </div>
+  </section>
+  <!-- Newsletter signup form - collects user details and content preferences -->
+  <section class="newsletter">
+    <h3 class="voice">Join our newsletter</h3>
+    <form>
+      <div class="field">
+        <label>First Name*</label>
+        <input type="text" id="fname" required>
+      </div>
+      <div class="field">
+        <label>Last Name*</label>
+        <input type="text" id="lname" required>
+      </div>
+      <div class="field">
+        <label>Email*</label>
+        <input type="email" id="email" required>
+      </div>
+      <!-- Checkbox group - lets users pick more than one topic of interest -->
+      <div class="field-checkbox-group">
+        <label>What wuld you like to recieve updates on?</label>
+        <div class="checkbox-option">
+          <input type="checkbox" id="topic-species" name="topics" value="species">
+          <label for="topic-species">New Species spotted in Auckland</label>
+        </div>
+        <div class="checkbox-option">
+          <input type="checkbox" id="topic-events" name="topics" value="events">
+          <label for="topic-events">Local conservation events</label>
+        </div>
+        <div class="checkbox-option">
+          <input type="checkbox" id="topic-tips" name="topics" value="tips">
+          <label for="topic-tips">Small action tips</label>
+        </div>
+        <!-- button to subcribe to newsletter(requires validation) -->
+      </div>
+      <button type="submit">Subscribe</button>
+    </form>
+  </section>
+  <!-- Footer - repeated on every page, links to all main sections -->
+  <footer>
+    <p>Small Steps Aotearoa · Species · Quiz · Actions · FAQ</p>
+  </footer>
   <script src="main.js"></script>
 </body>
 </html>
