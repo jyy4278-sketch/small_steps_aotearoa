@@ -1,0 +1,368 @@
+/*note to self change fonts throughout*/
+/* Reset and base styles - removes default browser spacing, sets base font */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: #e9e3d3;
+}
+.voice {
+    font-family: Georgia, "Times New Roman", serif;
+}
+/*hero section*/
+.hero {
+    position:relative;
+    height: 70vh;
+    min-height: 420px;
+    overflow:hidden;
+}
+/*figure this out later*/
+.hero-img-placeholder {
+    position: absolute;
+    inset: 0;
+    background: #48592f;
+}
+.hero-top{
+    position:absolute;
+    inset:0;
+    background: #48592f
+}
+.hero-top span:first-child {
+    color: #f0ecdf;
+    font-size: 15px;
+}
+.menu-btn {
+    background:none;
+    border:none;
+    color: rgba(240,236,223,0.75);
+    font-size:13px;
+    cursor: pointer;
+    font-family: inherit;
+}
+.hero-text{
+    position: absolute;
+    bottom: 40px;
+    left: 40px;
+    z-index:2;
+}
+.hero-text p:first-child{
+    font-size: 26px;
+    color: #f0ecdf;
+    line-height: 1.35;
+    margin-bottom: 10px;
+    max-width: 340px;
+}
+.hero-text span{
+    font-size: 13px;
+    color: rgba(240,236,223,0.7)
+}
+/*sticky nav bar - hidden until scroll*/
+.sticky-nav{
+    position:sticky;
+    top:0;
+    z-index:30;
+    background: #e9e3d3;
+    border-bottom: 1px solid #d3caae;
+    display: flex;
+    justify-content: space-between;
+    align-items:center;
+    padding: 14px 40px;
+    transform: translateY(-100%);
+    transition: transform 0.3s ease;
+}
+.sticky-nav.visible{
+    transform: translateY(0)
+}
+.sticky-nav span:first-child{
+    font-family: Georgia, serif;
+    font-size: 14px;
+    color: #1a2812;
+}
+.sticky-nav .links{
+    display: flex;
+    gap:22px;
+
+}
+.sticky-nav .links a {
+    font-size: 13px;
+    color: #33321f;
+    text-decoration: none;
+  }
+  
+  .sticky-nav .links a:hover {
+    color: #1a2812;
+  }
+  /*fullscreen menu overlay - will be hidden but shown using JS*/
+  .menu-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(15,26,9,0.94);
+    z-index: 50;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 22px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+  .menu-overlay.open {
+    opacity:1;
+    pointer-events: auto;
+  }
+  .menu-overlay a {
+    color: #f0ecdf;
+    font-size: 26px;
+    text-decoration: none;
+    font-family: Georgia, serif;
+  }
+  
+  .menu-close {
+    position: absolute;
+    top: 26px;
+    right: 40px;
+    color: #f0ecdf;
+    font-size: 22px;
+    cursor: pointer;
+    background: none;
+    border: none;
+  }
+/*about section - showing text (imag will be added in later ver*/
+.about {
+    background: #e9e3d3;
+    padding: 64px 40px;
+    display: flex;
+    gap: 32px;
+    align-items: center;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+  
+.about-text {
+    flex: 1;
+  }
+  
+.about-text p:first-child {
+    font-size: 20px;
+    color: #1a2812;
+    margin-bottom: 12px;
+  }
+.about-text p:last-child {
+    font-size: 14.5px;
+    color: #33321f;
+    line-height: 1.75;
+    max-width: 480px;
+  }
+/*image place holder*/
+.about-img {
+  width: 180px;
+  height: 180px;
+  border-radius: 6px;
+  flex-shrink: 0;
+  background: linear-gradient(160deg,#48592f,#0f1a09);
+}
+/*explore section with 3 cards to link to 3 pages*/
+.explore {
+    background: #e9e3d3;
+    padding: 40px 40px 70px;
+    max-width: 1000px;
+    margin: 0 auto;
+    position: relative;
+  }
+  
+.explore-heading {
+    font-size: 80px;
+    line-height: 0.9;
+    color: #1a2812;
+    opacity: 0.94;
+    letter-spacing: -2px;
+    text-transform: uppercase;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+.cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+  }
+.card-img {
+    aspect-ratio: 4/5;
+    border-radius: 4px;
+    box-shadow: 0 14px 30px rgba(15,26,9,0.35);
+    transition: transform 0.25s ease;
+  }
+.explore-card-link:hover .card-img {
+    transform: translateY(-6px);
+}
+.card1 { background: linear-gradient(165deg,#5f7350,#1a2812); }
+.card2 { background: linear-gradient(165deg,#4a5c3a,#151f0d); }
+.card3 { background: linear-gradient(165deg,#38492a,#0f1a09); }
+.explore-card-link {
+    text-decoration: none;
+    display: block;
+}
+.card-label{
+    text-align: centre;
+    margin-top:14px;
+    font-size:12px;
+    letter-spacing:2px;
+    color:#33321f;
+    text-transform: uppercase;
+}
+/*carousel section */
+.carousel-section{
+    background:#ded6c0;
+    padding: 48px 40px;
+}
+.carousel {
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+  
+.carousel-box {
+    border-radius: 14px;
+    height: 260px;
+    background: linear-gradient(100deg,#2e401f,#0f1a09 60%,#1b2c12);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 24px;
+  }
+  
+ .carousel-box span.arrow {
+    color: #f0ecdf;
+    font-size: 22px;
+    cursor: pointer;
+    user-select: none;
+  }
+.carousel-box span.label {
+    color: rgba(240,236,223,0.6);
+    font-size: 13px;
+  }
+.dots {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 14px;
+  }
+  
+.dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #b3a98d;
+  }
+  
+.dot.active {
+    background: #1a2812;
+  }
+/*newsletter*/
+.newsletter {
+    background: #e9e3d3;
+    padding: 56px 40px;
+  }
+  
+.newsletter h3 {
+    text-align: center;
+    font-size: 20px;
+    color: #1a2812;
+    margin-bottom: 28px;
+  }
+  
+.newsletter form {
+    max-width: 620px;
+    margin: 0 auto;
+  }
+  
+.field-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 14px;
+  }
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  
+.field label {
+    font-size: 11.5px;
+    color: #33321f;
+  }
+  
+.field input, .field select {
+    border: 1px solid #b3a98d;
+    border-radius: 5px;
+    padding: 10px 12px;
+    font-size: 13px;
+    background: #fff;
+  }
+/*per field error message - using JS*/
+.field-error {
+    font-size: 11px;
+    color: #a3453b;
+    margin-top: 2px;
+    display: none;
+  }
+  
+.field-error.show {
+    display: block;
+  }
+  
+.field-checkbox-group {
+    margin: 16px 0;
+  }
+  
+.field-checkbox-group > label {
+    display: block;
+    font-size: 12px;
+    color: #33321f;
+    margin-bottom: 8px;
+  }
+.checkbox-option {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 6px;
+  }
+  
+.checkbox-option label {
+    font-size: 13px;
+    color: #33321f;
+  }
+  
+.checkbox-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12.5px;
+    color: #33321f;
+    margin: 12px 0 6px;
+    flex-wrap: wrap;
+  }
+.newsletter button {
+    display: block;
+    margin: 10px auto 0;
+    background: #1a2812;
+    color: #f0ecdf;
+    border: none;
+    border-radius: 5px;
+    padding: 12px 40px;
+    font-size: 14px;
+    cursor: pointer;
+  }
+  
+  /* Footer (note to self-change later) */
+footer {
+    background: #0f1a09;
+    padding: 26px 40px;
+    text-align: center;
+  }
+  
+footer p {
+    font-size: 12px;
+    color: #7a8a6a;
+  }

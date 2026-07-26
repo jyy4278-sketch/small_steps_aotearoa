@@ -6,75 +6,161 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<!-- Sticky navigation bar - appears on every page for consistent site navigation -->
-  <nav class="top-nav">
+  <!-- Hero section - large intro banner with the site's main tagline(change later) -->
+  <section class="hero">
+    <div class="hero-img-placeholder"><!-- hero image(adding later) --></div>
+    <div class="hero-top">
+      <span>Small Steps Aotearoa</span>
+      <button class="menu-btn" onclick="toggleMenu(true)">Menu</button>
+    </div>
+    <div class="hero-text">
+      <p class="voice">The wild city you<br>haven't noticed yet.</p>
+      <span>Scroll ↓</span>
+    </div>
+  </section>
+    <!-- Sticky navigation bar - this is hidden until user scrolls past hero and then sticks to the top -->
+  <nav class="sticky-nav" id="stickyNav">
     <span class="site-title">Small Steps Aotearoa</span>
-    <div class="nav-links">
-      <a href="index.html" class="active">Home</a>
+    <div class="links">
+      <a href="index.html" >Home</a>
       <a href="species.html">Species</a>
       <a href="quiz.html">Quiz</a>
       <a href="actions.html">Actions</a>
     </div>
   </nav>
-  <!-- Hero section - large intro banner with the site's main tagline -->
-  <section class="hero">
-    <div class="hero-text">
-      <p class="voice">The wild city you haven't noticed yet</p>
-      <span>Scroll ↓</span>
-    </div>
-   <!-- About section - brief explanation of the site's purpose for first-time visitors --> 
-  </section>
-  <section class="about">
-    <div class="about-text">
-      <p class="voice">About the website</p>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam ut quam eget enim porta consectetur et ut dolor. Suspendisse venenatis vestibulum eros ut ullamcorper. In ac sodales libero. Quisque convallis tristique lacus a lacinia. Integer pretium ante vitae massa mollis, nec ultricies mi mattis. Donec aliquet eros eget diam suscipit ornare. Sed euismod porta quam id tempus. Integer lacinia vel nisl vitae semper. Aliquam ut velit dictum, rutrum lorem sed, faucibus justo. Nunc scelerisque nec augue ac porttitor. Quisque ut fermentum orci. Sed ac sagittis ipsum. Donec vestibulum eros sed mattis finibus.</p>
-    </div>
+  <!-- Fullscreen menu overlay - opens when Menu button is clicked -->
+  <div class="menu-overlay" id="menuOverlay">
+    <button class="menu-close" onclick="toggleMenu(false)">x</button>
+    <a href="index.html">Home</a>
+    <a href="species.html">Species</a>
+    <a href="quiz.html">Quiz</a>
+    <a href="actions.html">Actions</a>
+  </div>
+
+   <!-- About section - brief explanation of the site's purpose for first-time visitors - add in text later --> 
+    <section class="about">
+      <div class="about-text">
+        <p class="voice">About the website</p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam ut quam eget enim porta consectetur et ut dolor. Suspendisse venenatis vestibulum eros ut ullamcorper. In ac sodales libero. Quisque convallis tristique lacus a lacinia. Integer pretium ante vitae massa mollis, nec ultricies mi mattis. Donec aliquet eros eget diam suscipit ornare. Sed euismod porta quam id tempus. Integer lacinia vel nisl vitae semper. Aliquam ut velit dictum, rutrum lorem sed, faucibus justo. Nunc scelerisque nec augue ac porttitor. Quisque ut fermentum orci. Sed ac sagittis ipsum. Donec vestibulum eros sed mattis finibus.</p>
+      </div>
+      <div class="about-img"><!-- need to put in about img --></div>
+    </section>
     <!-- Explore section - card links that direct users to the three other main pages, stylistic design -->
-  </section>
-  <section class="explore">
-    <h2 class="voice">Explore</h2>
-    <div class ="cards">
-      <a href="species.html" class="explore-card-link">Meet the locals</a>
-      <a href="actions.html" class="explore-card-link">Small steps</a>
-      <a href="quiz.html" class="explore-card-link">Quiz</a>
+    <section class="explore">
+      <h2 class="explore-heading-voice">Explore</h2>
+      <div class="cards">
+        <a class="explore-card-link" href="species.html">
+          <div class="card-img-card1"></div>
+          <p class="card-label">Meet the locals</p>
+        </a>
+        <a class="explore-card-link" href="actions.html">
+          <div class="card-img-card2"></div>
+          <p class="card-label">Small Steps</p>
+        </a>
+        <a class="explore-card-link" href="quiz.html">
+          <div class="card-img-card3"></div>
+          <p class="card-label">Quiz</p>
+        </a>
+      </div>
+    </section>
+    <!-- Carousel section - featured location showcase(add more) -->
+<section class="carousel-section">
+  <div class="carousel">
+    <div class="carousel-box">
+      <span class="arrow">‹</span>
+      <span class="label">Tōtara Bush, Waitākere</span>
+      <span class="arrow">›</span>
     </div>
-  </section>
-  <!-- Newsletter signup form - collects user details and content preferences -->
-  <section class="newsletter">
-    <h3 class="voice">Join our newsletter</h3>
-    <form>
+
+    <div class="dots">
+      <div class="dot active"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+    </div>
+  </div>
+</section>
+<!-- Newsletter signup form - collects user details, region, and content preferences -->
+<section class="newsletter">
+  <h3 class="voice">Join our newsletter</h3>
+  <form onsubmit="return handleSubscribe(event)">
+
+    <div class="field-row">
       <div class="field">
-        <label>First Name*</label>
-        <input type="text" id="fname" required>
+        <label for="fname">First name*</label>
+        <input type="text" id="fname">
+        <!-- Personalised error message shown here if validation fails(note to self double check if this is working as validation for the inputs) -->
+        <p class="field-error" id="fnameError"></p>
       </div>
       <div class="field">
-        <label>Last Name*</label>
-        <input type="text" id="lname" required>
+        <label for="lname">Last name*</label>
+        <input type="text" id="lname">
+        <p class="field-error" id="lnameError"></p>
       </div>
       <div class="field">
-        <label>Email*</label>
-        <input type="email" id="email" required>
+        <label for="email">Email*</label>
+        <input type="email" id="email">
+        <p class="field-error" id="emailError"></p>
       </div>
-      <!-- Checkbox group - lets users pick more than one topic of interest -->
-      <div class="field-checkbox-group">
-        <label>What wuld you like to recieve updates on?</label>
-        <div class="checkbox-option">
-          <input type="checkbox" id="topic-species" name="topics" value="species">
-          <label for="topic-species">New Species spotted in Auckland</label>
-        </div>
-        <div class="checkbox-option">
-          <input type="checkbox" id="topic-events" name="topics" value="events">
-          <label for="topic-events">Local conservation events</label>
-        </div>
-        <div class="checkbox-option">
-          <input type="checkbox" id="topic-tips" name="topics" value="tips">
-          <label for="topic-tips">Small action tips</label>
-        </div>
-        <!-- button to subcribe to newsletter(requires validation) -->
+    </div>
+
+    <div class="field-row">
+      <!-- Region dropdown - all 16 regions of New Zealand -->
+      <div class="field">
+        <label for="region">Region*</label>
+        <select id="region">
+          <option value="">Select your region...</option>
+          <option>Northland</option>
+          <option>Auckland</option>
+          <option>Waikato</option>
+          <option>Bay of Plenty</option>
+          <option>Gisborne</option>
+          <option>Hawke's Bay</option>
+          <option>Taranaki</option>
+          <option>Manawatū-Whanganui</option>
+          <option>Wellington</option>
+          <option>Tasman</option>
+          <option>Nelson</option>
+          <option>Marlborough</option>
+          <option>West Coast</option>
+          <option>Canterbury</option>
+          <option>Otago</option>
+          <option>Southland</option>
+        </select>
+        <p class="field-error" id="regionError"></p>
       </div>
-      <button type="submit">Subscribe</button>
-    </form>
-  </section>
+      <div class="field">
+        <label for="yob">Year of birth*</label>
+        <input type="number" id="yob" placeholder="2010">
+        <p class="field-error" id="yobError"></p>
+      </div>
+    </div>
+
+    <!-- Checkbox group - lets users pick more than one content topic(not mandotary) -->
+    <div class="field-checkbox-group">
+      <label>What would you like to receive updates on?</label>
+      <div class="checkbox-option">
+        <input type="checkbox" id="topic-species" name="topics" value="species">
+        <label for="topic-species">New species spotted in Auckland</label>
+      </div>
+      <div class="checkbox-option">
+        <input type="checkbox" id="topic-events" name="topics" value="events">
+        <label for="topic-events">Local conservation events</label>
+      </div>
+      <div class="checkbox-option">
+        <input type="checkbox" id="topic-tips" name="topics" value="tips">
+        <label for="topic-tips">Small action tips</label>
+      </div>
+    </div>
+
+    <div class="checkbox-row">
+      <input type="checkbox" id="verify">
+      <label for="verify">I confirm the above details are correct</label>
+      <p class="field-error" id="verifyError"></p>
+    </div>
+
+    <button type="submit">Subscribe</button>
+  </form>
+</section>
   <!-- Footer - repeated on every page, links to all main sections -->
   <footer>
     <p>Small Steps Aotearoa · Species · Quiz · Actions · FAQ</p>
