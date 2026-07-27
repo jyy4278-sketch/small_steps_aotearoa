@@ -22,22 +22,30 @@ body {
     inset: 0;
     background: #48592f;
 }
-.hero-top{
-    position:absolute;
-    inset:0;
-    background: #48592f
+.hero-top {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 40px 50px;   /* was 26px 40px - more space from edges */
+  z-index: 2;
 }
+
 .hero-top span:first-child {
-    color: #f0ecdf;
-    font-size: 15px;
+  color: #f0ecdf;
+  font-size: 18px;   /* was 15px - bigger */
+  font-family: Georgia, serif;
 }
+
 .menu-btn {
-    background:none;
-    border:none;
-    color: rgba(240,236,223,0.75);
-    font-size:13px;
-    cursor: pointer;
-    font-family: inherit;
+  background: none;
+  border: none;
+  color: rgba(240,236,223,0.85);
+  font-size: 15px;   /* was 13px - bigger */
+  cursor: pointer;
+  font-family: inherit;
+  letter-spacing: 0.5px;
 }
 .hero-text{
     position: absolute;
@@ -171,23 +179,29 @@ body {
     position: relative;
   }
   
-.explore-heading {
-    font-size: 80px;
-    line-height: 0.9;
+  .explore-heading {
+    font-size: 110px;        /* was 80px */
+    line-height: .8;
     color: #1a2812;
     opacity: 0.94;
-    letter-spacing: -2px;
+    letter-spacing: 7px;
     text-transform: uppercase;
     text-align: center;
+    position: relative;
+    z-index: 1;
     margin-bottom: 20px;
   }
   
-.cards {
+  .cards {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 22px;
+    position: relative;
+    z-index: 2;              /* sits on top of the heading */
+    margin-top: -46px;       /* pulls cards up to overlap the heading */
   }
 .card-img {
+    width: 100%;
     aspect-ratio: 4/5;
     border-radius: 4px;
     box-shadow: 0 14px 30px rgba(15,26,9,0.35);
@@ -357,7 +371,7 @@ body {
   
   /* Footer (note to self-change later) */
 footer {
-    background: #0f1a09;
+    background: #0a1106;
     padding: 26px 40px;
     text-align: center;
   }
