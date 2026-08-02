@@ -39,12 +39,19 @@
   </div>
 
    <!-- About section - brief explanation of the site's purpose for first-time visitors - add in text later --> 
-    <section class="about">
-      <div class="about-text">
-        <p class="voice">About the website</p>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam ut quam eget enim porta consectetur et ut dolor. Suspendisse venenatis vestibulum eros ut ullamcorper. In ac sodales libero. Quisque convallis tristique lacus a lacinia. Integer pretium ante vitae massa mollis, nec ultricies mi mattis. Donec aliquet eros eget diam suscipit ornare. Sed euismod porta quam id tempus. Integer lacinia vel nisl vitae semper. Aliquam ut velit dictum, rutrum lorem sed, faucibus justo. Nunc scelerisque nec augue ac porttitor. Quisque ut fermentum orci. Sed ac sagittis ipsum. Donec vestibulum eros sed mattis finibus.</p>
+    <section class="about" id="aboutSection">
+      <div class="about-inner">
+        <div class="about-text-col">
+          <div class="about-text-inner">
+            <span class="kicker">About the website</span>
+            <h2>The wild city you haven't noticed yet</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam ut quam eget enim porta consectetur et ut dolor. Suspendisse venenatis vestibulum eros ut ullamcorper. In ac sodales libero. Quisque convallis tristique lacus a lacinia. Integer pretium ante vitae massa mollis, nec ultricies mi mattis. Donec aliquet eros eget diam suscipit ornare. Sed euismod porta quam id tempus. Integer lacinia vel nisl vitae semper. Aliquam ut velit dictum, rutrum lorem sed, faucibus justo. Nunc scelerisque nec augue ac porttitor. Quisque ut fermentum orci. Sed ac sagittis ipsum. Donec vestibulum eros sed mattis finibus.</p>
+          </div>
+        </div>
+        <div class="about-img-col">
+          <span class="tag">Tūī</span>
+        </div>
       </div>
-      <div class="about-img"><!-- need to put in about img --></div>
     </section>
 <!-- Explore section - card links that direct users to the three other main pages-->
 <section class="explore">
@@ -65,21 +72,19 @@
   </div>
 </section>
     <!-- Carousel section - featured location showcase(add more) -->
-<section class="carousel-section">
-  <div class="carousel">
-    <div class="carousel-box">
-      <span class="arrow">‹</span>
-      <span class="label">Tōtara Bush, Waitākere</span>
-      <span class="arrow">›</span>
-    </div>
-
-    <div class="dots">
-      <div class="dot active"></div>
-      <div class="dot"></div>
-      <div class="dot"></div>
-    </div>
-  </div>
-</section>
+    <section class="carousel-section">
+      <div class="carousel">
+        <div class="carousel-box" id="carouselBox">
+          <span class="arrow" id="prevArrow">‹</span>
+          <div class="carousel-text">
+            <span class="label" id="carouselLabel"></span>
+            <span class="blurb" id="carouselBlurb"></span>
+          </div>
+          <span class="arrow" id="nextArrow">›</span>
+        </div>
+        <div class="dots" id="carouselDots"></div>
+      </div>
+    </section>
 <!-- Newsletter signup form - collects user details, region, and content preferences -->
 <section class="newsletter">
   <h3 class="voice">Join our newsletter</h3>

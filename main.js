@@ -10,6 +10,51 @@ function toggleMenu(open) {
     const heroBottom = hero.getBoundingClientRect().bottom;
     stickyNav.classList.toggle('visible', heroBottom < 0);
   });
+  // Carousel data it has collection of location objects, each with a name, short blurb and image
+  const carouselLocations = [
+    { name: "Tiritiri Matangi Island", blurb: "Predator-free sanctuary, home to kōkako and saddleback.", image: "images/carousel-tiritiri.jpeg" },
+    { name: "Waitākere Ranges", blurb: "Dense native bush, kererū and tūī along the tracks.", image: "images/carousel-waitakere.jpg" },
+    { name: "One Tree Hill / Maungakiekie", blurb: "Volcanic cone with open grassland, easy to reach by bus.", image: "images/carousel-hill.webp" },
+    { name: "Western Springs", blurb: "Pūkeko and eels around the lakeside, right in the city.", image: "images/carousel-springs.jpg" }
+  ];
+
+let carouselIndex = 0;
+const carouselBox = document.getElementById('carouselBox');
+const carouselLabel = document.getElementById('carouselLabel');
+const carouselBlurb = document.getElementById('carouselBlurb');
+const carouselDots = document.getElementById('carouselDots');
+
+// Builds the label, blurb, background image and dots for whichever location is active
+function renderCarousel() {
+  const current = carouselLocations[carouselIndex];
+  carouselLabel.textContent = current.name;
+  carouselBlurb.textContent = current.blurb;
+  carouselBox.style.backgroundImage =
+    `linear-gradient(100deg, rgba(46,64,31,0.75), rgba(15,26,9,0.75)), url("${current.image}")`;
+
+  // Dots are generated from the array length, not hardcoded, so adding a location updates this automatically
+  carouselDots.innerHTML = '';
+  carouselLocations.forEach((location, i) => {
+    const dot = document.createElement('div');
+    dot.className = 'dot' + (i === carouselIndex ? ' active' : '');
+    dot.addEventListener('click', () => {
+      carouselIndex = i;
+      renderCarousel();
+    });
+    carouselDots.appendChild(dot);
+  });
+}
+
+document.getElementById('prevArrow').addEventListener('click', () => {
+  carouselIndex = (carouselIndex - 1 + carouselLocations.length) % carouselLocations.length;
+  renderCarousel();
+});
+document.getElementById('nextArrow').addEventListener('click', () => {
+  carouselIndex = (carouselIndex + 1) % carouselLocations.length;
+  renderCarousel();
+});
+
+renderCarousel();
   
   // Displays a specific error message under a given field, or hides it if there's no error - specfic error prevention
   //this is reused by every validation function below - takes the field's id and the message to show.
