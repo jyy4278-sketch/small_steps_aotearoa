@@ -22,7 +22,7 @@ body {
     position: absolute;
     inset: 0;
     background: #48592f;
-    background-image: url('images/river.jpg');
+    background-image: url('images/hero-river.jpg');
     background-size: cover;
     background-position: center;
 }
@@ -107,7 +107,7 @@ body {
   .menu-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(15,26,9,0.94);
+    background: rgba(7, 13, 7, 0.94);
     z-index: 50;
     display: flex;
     flex-direction: column;
@@ -476,6 +476,174 @@ body {
     font-size: 14px;
     cursor: pointer;
   }
+
+
+/* _______ Species page _____ */
+.page-head {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 54px 40px 26px;
+}
+.page-head h1 {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 34px;
+  color: #1a2812;
+  margin-bottom: 10px;
+}
+.page-head p {
+  font-size: 14px;
+  color: #4a4934;
+  max-width: 480px;
+  line-height: 1.6;
+}
+
+.sticky-nav .links a.active {
+  color: #1a2812;
+  font-weight: 600;
+}
+
+.controls {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 40px 30px;
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+#searchInput {
+  flex: 1;
+  min-width: 200px;
+  border: 1px solid #b3a98d;
+  border-radius: 6px;
+  padding: 10px 14px;
+  font-size: 13.5px;
+  background: #fff;
+}
+.filter-btn {
+  border: 1px solid #b3a98d;
+  background: transparent;
+  border-radius: 10px;
+  padding: 7px 16px;
+  font-size: 12.5px;
+  color: #33321f;
+  cursor: pointer;
+}
+.filter-btn.active {
+  background: #1a2812;
+  color: #f0ecdf;
+  border-color: #1a2812;
+}
+
+.grid {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 40px 60px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+.species-card {
+  border-radius: 10px;
+  overflow: hidden;
+  cursor: pointer;
+  background: #fff;
+  box-shadow: 0 4px 14px rgba(26,40,18,0.08);
+  transition: transform 0.2s ease;
+}
+.species-card:hover { transform: translateY(-4px); }
+.species-img { aspect-ratio: 4/3; position: relative; background-size: cover; background-position: center; }
+.status-pill {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  font-size: 10px;
+  letter-spacing: 0.5px;
+  padding: 3px 9px;
+  border-radius: 20px;
+  color: #fff;
+  text-transform: uppercase;
+}
+.status-native { background: #4a6b3a; }
+.status-endangered { background: #a3453b; }
+.status-common { background: #7d8a6a; }
+
+.species-body { padding: 14px 16px; }
+.species-body .en-name { font-family: Georgia, serif; font-size: 16px; color: #1a2812; margin-bottom: 2px; }
+.species-body .mi-name { font-size: 12px; color: #7d8a6a; font-style: italic; }
+
+.no-results {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 50px 20px;
+  color: #7d8a6a;
+  font-size: 14px;
+  display: none;
+  max-width: 900px;
+  margin: 0 auto;
+}
+.no-results.show { display: block; }
+
+/* Modal */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(6, 11, 4, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+.modal-backdrop.open { opacity: 1; pointer-events: auto; }
+.modal-box {
+  background: #fff;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 400px;
+  overflow: hidden;
+  transform: translateY(16px);
+  transition: transform 0.25s ease;
+}
+.modal-backdrop.open .modal-box { transform: translateY(0); }
+.modal-img { aspect-ratio: 16/9; position: relative; background-size: cover; background-position: center; }
+.modal-close {
+  position: absolute;
+  top: 12px; right: 12px;
+  background: rgba(15,26,9,0.5);
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 28px; height: 28px;
+  font-size: 15px;
+  cursor: pointer;
+}
+.modal-body { padding: 20px 22px 24px; }
+.modal-body .en-name { font-family: Georgia, serif; font-size: 20px; color: #1a2812; margin-bottom: 2px; }
+.modal-body .mi-name { font-size: 13px; color: #7d8a6a; font-style: italic; margin-bottom: 14px; }
+.modal-body .row { font-size: 13px; color: #4a4934; line-height: 1.6; margin-bottom: 10px; }
+.modal-body .label { color: #7d8a6a; font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.5px; display: block; }
+.play-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #1a2812;
+  color: #f0ecdf;
+  border: none;
+  border-radius: 20px;
+  padding: 7px 14px;
+  font-size: 12px;
+  cursor: pointer;
+  margin-top: 4px;
+}
+.play-btn:disabled { opacity: 0.6; cursor: default; }
+
+
+
+
+
   
   /* Footer (note to self-change later) */
 footer {

@@ -2,33 +2,55 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>FAQ - Small Steps Aotearoa</title>
+<title>Species - Small Steps Aotearoa</title>
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
 <!-- Sticky navigation bar - on all pages -->
 <nav class="sticky-nav visible" id="stickyNav">
-  <span class="site-title">Small Steps Aotearoa</span>
-  <div class="links">
-    <a href="index.html">Home</a>
-    <a href="species.html">Species</a>
-    <a href="quiz.html">Quiz</a>
-    <a href="actions.html">Actions</a>
-    <a href="faq.html" class="active">FAQ</a>
-  </div>
+<span class="site-title">Small Steps Aotearoa</span>
+<div class="links">
+<a href="index.html">Home</a>
+<a href="species.html" class="active">Species</a>
+<a href="quiz.html">Quiz</a>
+<a href="actions.html">Actions</a>
+<a href="faq.html">FAQ</a>
+</div>
 </nav>
 
 <!-- Page heading -->
 <div class="page-head">
-  <h1 class="voice">Species</h1>
+<h1 class="voice">Meet the locals</h1>
+<p>The birds and insects sharing your street, whether you've noticed them or not. Search by name or filter by type.</p>
 </div>
 
-<!-- Content here-->
+<!-- Search + filter controls -->
+<div class="controls">
+  <input type="text" id="searchInput" placeholder="Search by name...">
+  <button class="filter-btn active" data-filter="all">All</button>
+  <button class="filter-btn" data-filter="bird">Birds</button>
+  <button class="filter-btn" data-filter="insect">Insects</button>
+</div>
 
-<!-- Footer-same -->
+<!-- Species cards get built here by main.js -->
+<div class="grid" id="grid"></div>
+<p class="no-results" id="noResults">No species match your search.</p>
+
+<!-- Modal popup for species detail + call playback -->
+<div class="modal-backdrop" id="modalBackdrop">
+  <div class="modal-box">
+    <div class="modal-img" id="modalImg">
+      <button class="modal-close" id="modalCloseBtn">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<audio id="soundPlayer"></audio>
+
 <footer>
-  <p>Small Steps Aotearoa · Species · Quiz · Actions · FAQ</p>
+<p>Small Steps Aotearoa · Species · Quiz · Actions · FAQ</p>
 </footer>
 
 <script src="main.js"></script>

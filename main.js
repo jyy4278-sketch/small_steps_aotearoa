@@ -3,14 +3,18 @@ function toggleMenu(open) {
     document.getElementById('menuOverlay').classList.toggle('open', open);
   }
   
-  //shows the sticky nav once the user scrolls past the hero section using heroBottom < 0
-  const hero = document.querySelector('.hero');
-  const stickyNav = document.getElementById('stickyNav');
+// Sticky nav only appears after scrolling past the hero — homepage only
+const hero = document.querySelector('.hero');
+const stickyNav = document.getElementById('stickyNav');
+if (hero && stickyNav) {
   window.addEventListener('scroll', () => {
     const heroBottom = hero.getBoundingClientRect().bottom;
     stickyNav.classList.toggle('visible', heroBottom < 0);
   });
-  // Carousel data it has collection of location objects, each with a name, short blurb and image
+}
+
+// Carousel — homepage only
+if (document.getElementById('prevArrow')) {
   const carouselLocations = [
     { name: "Tiritiri Matangi Island", blurb: "Predator-free sanctuary, home to kōkako and saddleback.", image: "images/carousel-tiritiri.jpeg" },
     { name: "Waitākere Ranges", blurb: "Dense native bush, kererū and tūī along the tracks.", image: "images/carousel-waitakere.jpg" },
@@ -18,46 +22,45 @@ function toggleMenu(open) {
     { name: "Western Springs", blurb: "Pūkeko and eels around the lakeside, right in the city.", image: "images/carousel-springs.jpg" }
   ];
 
-let carouselIndex = 0;
-const carouselBox = document.getElementById('carouselBox');
-const carouselLabel = document.getElementById('carouselLabel');
-const carouselBlurb = document.getElementById('carouselBlurb');
-const carouselDots = document.getElementById('carouselDots');
+  let carouselIndex = 0;
+  const carouselBox = document.getElementById('carouselBox');
+  const carouselLabel = document.getElementById('carouselLabel');
+  const carouselBlurb = document.getElementById('carouselBlurb');
+  const carouselDots = document.getElementById('carouselDots');
 
-// Builds the label, blurb, background image and dots for whichever location is active
-function renderCarousel() {
-  const current = carouselLocations[carouselIndex];
-  carouselLabel.textContent = current.name;
-  carouselBlurb.textContent = current.blurb;
-  carouselBox.style.backgroundImage =
-    `linear-gradient(100deg, rgba(46,64,31,0.75), rgba(15,26,9,0.75)), url("${current.image}")`;
+  function renderCarousel() {
+    const current = carouselLocations[carouselIndex];
+    carouselLabel.textContent = current.name;
+    carouselBlurb.textContent = current.blurb;
+    carouselBox.style.backgroundImage =
+      `linear-gradient(100deg, rgba(46,64,31,0.75), rgba(15,26,9,0.75)), url("${current.image}")`;
 
-  // Dots are generated from the array length, not hardcoded, so adding a location updates this automatically
-  carouselDots.innerHTML = '';
-  carouselLocations.forEach((location, i) => {
-    const dot = document.createElement('div');
-    dot.className = 'dot' + (i === carouselIndex ? ' active' : '');
-    dot.addEventListener('click', () => {
-      carouselIndex = i;
-      renderCarousel();
+    carouselDots.innerHTML = '';
+    carouselLocations.forEach((location, i) => {
+      const dot = document.createElement('div');
+      dot.className = 'dot' + (i === carouselIndex ? ' active' : '');
+      dot.addEventListener('click', () => {
+        carouselIndex = i;
+        renderCarousel();
+      });
+      carouselDots.appendChild(dot);
     });
-    carouselDots.appendChild(dot);
+  }
+
+  document.getElementById('prevArrow').addEventListener('click', () => {
+    carouselIndex = (carouselIndex - 1 + carouselLocations.length) % carouselLocations.length;
+    renderCarousel();
   });
+  document.getElementById('nextArrow').addEventListener('click', () => {
+    carouselIndex = (carouselIndex + 1) % carouselLocations.length;
+    renderCarousel();
+  });
+
+  renderCarousel();
 }
-
-document.getElementById('prevArrow').addEventListener('click', () => {
-  carouselIndex = (carouselIndex - 1 + carouselLocations.length) % carouselLocations.length;
-  renderCarousel();
-});
-document.getElementById('nextArrow').addEventListener('click', () => {
-  carouselIndex = (carouselIndex + 1) % carouselLocations.length;
-  renderCarousel();
-});
-
-renderCarousel();
   
   // Displays a specific error message under a given field, or hides it if there's no error - specfic error prevention
-  //this is reused by every validation function below - takes the field's id and the message to show.
+  //this is reused by every validation function below - takes the field's id and the message to show works for each one showing message
   function showFieldError(fieldId, message) {
     const errorEl = document.getElementById(fieldId + 'Error');
     if (message) {
@@ -68,7 +71,7 @@ renderCarousel();
     }
   }
   
-  //This bit checks a name field isn't empty-returns true if valid,false if not.
+  //this bit checks a name field isn't empty-returns true if valid,false if not.
   function validateName(value, fieldId, label) {
     const trimmed = value.trim();
     if (trimmed === '') {
@@ -109,8 +112,8 @@ renderCarousel();
     return true;
   }
   
-  // Checks year of birth is a real, sensible year - not just any number(between 1936 and 2021). - might change later to be more narrow or just teens
-  // Uses the current year so the valid range is never hardcoded or outdated - doesn't need to be constantly upadted
+  // Checks year of birth is a real, sensible year - not just any number(between 1936 and 2021). - might change later to be more narrow or just teens not sure yet
+  // Uses the current year so the valid range is never outdated - futureproofing - doesn't need to be constantly upadted
   function validateYearOfBirth(value) {
     const currentYear = new Date().getFullYear();
     const minYear = currentYear - 90; // reasonable oldest possible user
@@ -139,8 +142,8 @@ renderCarousel();
     return true;
   }
   
-  // Runs all field validations when the form is submitted.
-  //This will only shows the success message if every single field passes.
+  //this runs all the vield validations for input when submited
+  //will only shows the success message if every single field passes.
   function handleSubscribe(e) {
     e.preventDefault();
   
@@ -151,7 +154,7 @@ renderCarousel();
     const yob = document.getElementById('yob').value;
     const verified = document.getElementById('verify').checked;
   
-    // Run every check - each one shows its own specific error if it fails
+    //run every check - each one shows its own specific error if it fails
     const fnameValid = validateName(fname, 'fname', 'First name');
     const lnameValid = validateName(lname, 'lname', 'Last name');
     const emailValid = validateEmail(email);
@@ -169,3 +172,171 @@ renderCarousel();
     e.target.reset();
     return false;
   }
+
+
+
+//__________Species page__________
+// Guarded so this only runs on species.html
+if (document.getElementById('grid')) {
+
+ //array
+  const species = [
+    { en: "Tūī", mi: "Tūī", slug: "tui", freq: 880, category: "bird", status: "native",
+      habitat: "Native bush, gardens with flowering trees", threat: "Cats, loss of nectar-bearing trees",
+      sound: "Loud, varied — bell-like notes and clicks",
+      img: "images/species-tui.jpg"
+     },
+    { en: "Kererū", mi: "Kererū", slug: "kereru", freq: 220, category: "bird", status: "native",
+      habitat: "Forest canopy, suburban trees", threat: "Vehicle strikes, predators at nest",
+      sound: "Deep, soft coo; loud wingbeats in flight",
+      img: "images/species-kereru.jpg"
+    },
+    { en: "Fantail", mi: "Pīwakawaka", slug: "fantail", freq: 1200, category: "bird", status: "native",
+      habitat: "Bush edges, gardens, almost anywhere with insects", threat: "Cats, especially fledglings",
+      sound: "High, sharp 'cheet' repeated",
+      img: "images/species-fantail.jpg"
+    },
+    { en: "Morepork", mi: "Ruru", slug: "morepork", freq: 330, category: "bird", status: "native",
+      habitat: "Forest and large gardens, active at night", threat: "Habitat loss, vehicle strikes",
+      sound: "Two-note 'more-pork' call at night",
+      img: "images/species-owl.jpg"
+    },
+    { en: "Wētā", mi: "Wētā", slug: "weta", freq: 660, category: "insect", status: "endangered",
+      habitat: "Log piles, dense native vegetation, wētā hotels", threat: "Rats, mice, habitat clearance",
+      sound: "Leg-rubbing chirp, mostly at night",
+      img: "images/species-weta.jpg"
+    },
+    { en: "Kōtare", mi: "Kōtare", slug: "kotare", freq: 990, category: "bird", status: "native",
+      habitat: "Coastal areas, riverbanks, farmland", threat: "Habitat loss along waterways",
+      sound: "Sharp, repeated 'kek-kek-kek'",
+      img: "images/species-kingfisher.jpg"
+    },
+    { en: "Monarch butterfly", mi: "—", slug: "monarch", freq: 0, category: "insect", status: "common",
+      habitat: "Gardens with swan plants", threat: "Introduced, not native, included for comparison",
+      sound: "Silent",
+      img: "images/species-butterfly.jpg"
+    },
+    { en: "Kārearea", mi: "Kārearea", slug: "karearea", freq: 1400, category: "bird", status: "endangered",
+      habitat: "Open country, forest edges", threat: "Habitat loss, collisions",
+      sound: "Fast, high-pitched 'kek-kek-kek-kek'",
+      img: "images/species-hawk.jpg"
+    }
+  ];
+
+  const grid = document.getElementById('grid');
+  const searchInput = document.getElementById('searchInput');
+  const filterBtns = document.querySelectorAll('.filter-btn');
+  const noResults = document.getElementById('noResults');
+  let activeFilter = 'all';
+//turns status code into display words(small helper)
+  function statusLabel(s) {
+    if (s === 'native') return 'Native';
+    if (s === 'endangered') return 'Threatened';
+    return 'Introduced';
+  }
+
+  // Falls back to a bg colour until real photos are added to images
+  function cardBackground(sp) {
+  const placeholderColour = "#2e401f";
+
+  if (sp.img) {
+    return `url('${sp.img}') center / cover no-repeat, ${placeholderColour}`;
+  }
+  return placeholderColour;
+}
+//rebuilds grid
+  function render() {
+    const query = searchInput.value.trim().toLowerCase(); // non-trivial string manipulation(upper to lower case no blanks)
+    const filtered = species.filter(sp => { //need to fix so that you don't need the macron to search
+      const matchesFilter = activeFilter === 'all' || sp.category === activeFilter;
+      const matchesSearch = sp.en.toLowerCase().includes(query) || sp.mi.toLowerCase().includes(query);
+      return matchesFilter && matchesSearch;
+    });
+
+    grid.innerHTML = '';
+    noResults.classList.toggle('show', filtered.length === 0);
+//for those that are left after search
+    filtered.forEach((sp, i) => {
+      const card = document.createElement('div');
+      card.className = 'species-card';
+      card.innerHTML = `
+      <div class="species-img" style="background:${cardBackground(sp)};">
+          <span class="status-pill status-${sp.status}">${statusLabel(sp.status)}</span>
+        </div>
+        <div class="species-body">
+          <p class="en-name">${sp.en}</p>
+          <p class="mi-name">${sp.mi}</p>
+        </div>`;
+      card.addEventListener('click', () => openModal(sp, i));
+      grid.appendChild(card);
+    });
+  }
+//puts into html - formats
+  function openModal(sp, i) {
+    document.getElementById('modalImg').style.background = cardBackground(sp);
+    document.getElementById('modalBody').innerHTML = `
+      <p class="en-name">${sp.en}</p>
+      <p class="mi-name">${sp.mi}</p>
+      <p class="row"><span class="label">Habitat</span>${sp.habitat}</p>
+      <p class="row"><span class="label">Main threat</span>${sp.threat}</p>
+      <p class="row"><span class="label">Sound</span>${sp.sound}</p>
+      <button class="play-btn" id="playBtn" ${sp.freq === 0 ? 'disabled' : ''}>▶ Play call</button>`;
+    document.getElementById('modalBackdrop').classList.add('open');
+//for music
+    const playBtn = document.getElementById('playBtn');
+    if (playBtn && sp.freq > 0) {
+      playBtn.addEventListener('click', () => playSound(sp.slug, sp.freq, playBtn));
+    }
+  }
+
+  // Tries a real recording first; if it's missing, falls back to a synthesised
+  // placeholder tone so the button always does something rather than failing silently.
+  function playSound(slug, freq, btnEl) {
+    const audio = document.getElementById('soundPlayer');
+    audio.src = `sounds/${slug}.mp3`;
+    btnEl.disabled = true;
+    btnEl.textContent = '♪ Playing...';
+
+    audio.play()
+      .then(() => { audio.onended = () => resetBtn(btnEl); })
+      .catch(() => {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.frequency.value = freq;
+        osc.type = 'sine';
+        gain.gain.setValueAtTime(0.15, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.6);
+        osc.connect(gain).connect(ctx.destination);
+        osc.start();
+        osc.stop(ctx.currentTime + 0.6);
+        osc.onended = () => { resetBtn(btnEl); ctx.close(); };
+      });
+  }
+
+  function resetBtn(btnEl) {
+    if (!btnEl) return;
+    btnEl.disabled = false;
+    btnEl.textContent = '▶ Play call';
+  }
+
+  function closeModal() {
+    document.getElementById('modalBackdrop').classList.remove('open');
+  }
+  document.getElementById('modalCloseBtn').addEventListener('click', closeModal);
+  document.getElementById('modalBackdrop').addEventListener('click', (e) => {
+    if (e.target.id === 'modalBackdrop') closeModal();
+  });
+
+  searchInput.addEventListener('input', render); // GUI event — live filtering as you type
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filterBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      activeFilter = btn.dataset.filter;
+      render();
+    });
+  });
+
+  render();
+}
