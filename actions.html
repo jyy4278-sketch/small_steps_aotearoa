@@ -1,11 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>FAQ - Small Steps Aotearoa</title>
-<link rel="stylesheet" href="styles.css">
-</head>
-<body>
+  <meta charset="UTF-8">
+  <title>Actions - Small Steps Aotearoa</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  </head>
 
 <!-- Sticky navigation bar - on all pages -->
 <nav class="sticky-nav visible" id="stickyNav">
@@ -14,17 +14,53 @@
     <a href="index.html">Home</a>
     <a href="species.html">Species</a>
     <a href="quiz.html">Quiz</a>
-    <a href="actions.html">Actions</a>
-    <a href="faq.html" class="active">FAQ</a>
+    <a href="actions.html" class="active">Actions</a>
+    <a href="faq.html" >FAQ</a>
   </div>
 </nav>
 
-<!-- Page heading -->
-<div class="page-head">
-  <h1 class="voice">Actions</h1>
+<!-- hero banner -->
+<section class="actions-hero" id="actionsHero">
+  <img src="images/actions-hero.jpg" alt="" class="hero-img">
+  <div class="hero-noise" aria-hidden="true"></div>
+
+  <div class="hero-type">
+    <span class="hero-text">Realistic beats ambitious</span>
+    <h1 class="hero-big">
+      <span class="line line-1">Small</span>
+      <span class="line line-2">Steps</span>
+    </h1>
+    <p class="hero-tagline">____________</p>
+  </div>
+</section>
+<!--about section-->
+<section class="action-split">
+  <div class="action-split-text">
+    <h2 class="voice">Small Habits.<br>Big difference.</h2>
+    <p>Use the list bellow to see what you can actually do to make a difference. Pick what you'll realistically keep doing, not everything at once</p>
+  </div>
+  <div class="action-split-img" aria-hidden="true"></div>
+</section>
+<!--Checklist-->
+<div class="actions-wrap">
+  <div class="list-title">
+    <span>Where to start</span>
+    <h2 class="voice">Small changes to try</h2>
+
+  </div>
+  <div class="actions-card" id="actionsCard">
+  <!--JS list-->
+
+  </div>
+  <div class="plan-btn-row">
+    <button class="plan-btn" id="planBtn" disabled>Commit!</button>
+    <p class="count-line" id="countLine">Select at least one action</p>
+  </div>
+  <div class="plan-output" id="planOutput"></div>
 </div>
 
-<!-- Content here-->
+
+
 
 <!-- Footer-same -->
 <footer>

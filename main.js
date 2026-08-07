@@ -439,3 +439,36 @@ if (document.getElementById('quizWrap')) {
 
   renderQuestion();
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+// ________________________ Habits page __________________
+if (document.getElementById('actionsCard')) {
+
+  const actions = [
+    { text: "Keep your cat inside at night", desc: "Cats are one of the biggest threats to fledgling birds and lizards." },
+    { text: "Plant a native shrub or tree", desc: "Even one plant gives nectar-feeders like tūī somewhere closer to feed." },
+    { text: "Always put rubbish in the bin", desc: "Litter harms wildlife directly and often ends up in streams and harbours." },
+    { text: "Don't feed bread to birds", desc: "Bread mostly attracts introduced species and offers native birds no nutrition." },
+    { text: "Turn off unnecessary outdoor lights", desc: "Excess light disorients native seabirds and disrupts nocturnal insects." },
+    { text: "Keep dogs on a leash near nesting birds", desc: "Ground-nesting birds on beaches are especially vulnerable to off-leash dogs." },
+    { text: "Set a trap for pests in your backyard", desc: "Rats and stoats kill tens of millions of native eggs and chicks every year." },
+    { text: "Mow the lawn less often", desc: "Longer grass supports more insects, which native birds rely on for food." },
+    { text: "Make your windows visible to birds", desc: "Decals or partly open blinds stop birds mistaking glass for open sky." },
+    { text: "Let part of your garden grow wild", desc: "A messier corner with layered plants gives more species somewhere to live." }
+  ];
+
+  // rest of your render / checkbox / commit logic goes here,
+  // same pattern as before — just working off a 10-item array now
+
+}
