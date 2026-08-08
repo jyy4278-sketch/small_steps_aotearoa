@@ -955,6 +955,10 @@ body {
   border-bottom: 1px solid #f0ede2;
   cursor: pointer;
 }
+/*hides extra checkbox*/
+.action-item input {
+  display: none;
+}
 
 .action-item:last-child { border-bottom: none; }
 .action-item:hover { background: #fbfaf6; }

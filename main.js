@@ -291,7 +291,7 @@ if (document.getElementById('grid')) {
     }
   }
 
-  // Tries a real recording first; if it's missing, falls back to a synthesised
+  // Tries a real recording first; if it's missing, falls back to sound
   // placeholder tone so the button always does something rather than failing silently.
   function playSound(slug, freq, btnEl) {
     const audio = document.getElementById('soundPlayer');
@@ -349,112 +349,11 @@ if (document.getElementById('grid')) {
 
 
 
-// ________________________ Quiz page __________________
+// ________________________ Actions page __________________
 //keeps it inside the quiz page only so JS does not apply to other pages
-if (document.getElementById('quizWrap')) {
-
-  //array of questions
-  const questions = [
-    { name: "Tūī", isNative: true, img: "images/quiz-tui.jpg" },
-    { name: "Blackbird", isNative: false, img: "images/quiz-blackbird.jpg" },
-    { name: "Kererū", isNative: true, img: "images/quiz-kereru.jpg" },
-    { name: "House sparrow", isNative: false, img: "images/quiz-sparrow.jpg" },
-    { name: "Wētā", isNative: true, img: "images/species-weta.jpg" },
-    { name: "Magpie", isNative: false, img: "images/quiz-magpie.jpg" },
-    { name: "Pīwakawaka (Fantail)", isNative: true, img: "images/quiz-fantail.jpg" },
-    { name: "Monarch butterfly", isNative: false, img: "images/quiz-butterfly.jpg" },
-  ];
-
-  let current = 0;
-  let score = 0;
-  const wrap = document.getElementById('quizWrap');//so dont have to keep calling quizWrap div
-
-  function renderQuestion() {
-    const q = questions[current]; //grabs object which matches the current index
-    wrap.innerHTML = `
-      <p class="score-line">Question ${current + 1} of ${questions.length} · Score: ${score}</p>
-      <div class="quiz-card">
-      <div class="quiz-img" style="background-image: url('${q.img}')">
-      <span>${q.name}</span>
-        </div>
-        <div class="quiz-buttons">
-          <button id="nativeBtn">Native</button>
-          <button id="notNativeBtn">Not native</button>
-        </div>
-        <p class="feedback" id="feedback"></p>
-      </div>
-      <button class="next-btn" id="nextBtn">Next →</button>
-    `;
-
-    document.getElementById('nativeBtn').addEventListener('click', () => checkAnswer(true)); //when clicked call 'checkAnswer' and pass in truee
-    document.getElementById('notNativeBtn').addEventListener('click', () => checkAnswer(false));
-    document.getElementById('nextBtn').addEventListener('click', goNext);
-  }
-
-  function checkAnswer(userSaidNative) {
-    const q = questions[current];
-    const correct = userSaidNative === q.isNative; //correct becomes true when wat user clicked matches answer
-
-    const feedback = document.getElementById('feedback');
-
-    if (correct) {
-      score++; //score = score+1
-      feedback.textContent = "Correct!";
-      feedback.className = "feedback correct";
-    } else {
-      feedback.textContent = `Not quite. ${q.name} is ${q.isNative ? "native" : "not native"}.`; //if q.isnative is true then use native otherwise non-native
-      feedback.className = "feedback wrong";
-    }
-
-    document.getElementById('nativeBtn').disabled = true;//disables other button
-    document.getElementById('notNativeBtn').disabled = true;
-    document.getElementById('nextBtn').classList.add('show');//next button visible
-  }
-
-  function goNext() {
-    current++;
-    if (current < questions.length) {
-      renderQuestion();
-    } else {
-      renderEndScreen();
-    }
-  }
-
-  function renderEndScreen() {
-    wrap.innerHTML = `
-      <div class="end-screen">
-        <p>You scored ${score} / ${questions.length}</p>
-        <p>${score === questions.length ? "Perfect score!" : "Take another look at the species page and try again."}</p>
-        <button id="restartBtn">Try again</button>
-      </div>
-    `;
-    document.getElementById('restartBtn').addEventListener('click', restartQuiz);
-  }
-
-  function restartQuiz() {
-    current = 0;
-    score = 0;
-    renderQuestion();
-  }
-
-  renderQuestion();
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-// ________________________ Habits page __________________
 if (document.getElementById('actionsCard')) {
 
+  // Array of objects — each action has the habit itself and why it matters
   const actions = [
     { text: "Keep your cat inside at night", desc: "Cats are one of the biggest threats to fledgling birds and lizards." },
     { text: "Plant a native shrub or tree", desc: "Even one plant gives nectar-feeders like tūī somewhere closer to feed." },
@@ -468,7 +367,94 @@ if (document.getElementById('actionsCard')) {
     { text: "Let part of your garden grow wild", desc: "A messier corner with layered plants gives more species somewhere to live." }
   ];
 
-  // rest of your render / checkbox / commit logic goes here,
-  // same pattern as before — just working off a 10-item array now
+  // Holds the actions the user has actually picked — added to and removed from as they click
+  let selected = [];
+//calling all variables here
+  const actionsCard = document.getElementById('actionsCard');
+  const planBtn = document.getElementById('planBtn');
+  const countLine = document.getElementById('countLine');
+  const planOutput = document.getElementById('planOutput');
+
+  // Builds the checklist markup from the actions array and wires up click events
+  //firstly turns the array into strings and joins all toghter
+  function renderActions() {
+    actionsCard.innerHTML = actions.map((action, i) => `
+      <div class="action-item" id="item${i}" data-text="${action.text}">
+        <span class="action-num">${String(i + 1).padStart(2, '0')}</span>
+        <div class="action-content">
+          <p class="action-title">${action.text}</p>
+          <p class="action-desc">${action.desc}</p>
+        </div>
+        <div class="action-check">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M4 12l6 6L20 6" stroke="#f0ecdf" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <input type="checkbox" id="action${i}">
+      </div>
+    `).join('');
+
+    document.querySelectorAll('.action-item').forEach(item => {
+      item.addEventListener('click', () => handleCheck(item));
+    });
+  }
+
+  // Toggles one action in/out of the selected list — takes the clicked element, returns nothing
+  function handleCheck(item) {
+    const text = item.dataset.text;
+    const nowChecked = !item.classList.contains('checked'); //checks if item has been checked
+    item.classList.toggle('checked', nowChecked);
+
+    if (nowChecked) {
+      selected.push(text);
+    } else {
+      selected = selected.filter(t => t !== text);
+    }
+    updateButton();
+  }
+
+
+  // Enables/disables the commit button and updates the count line based on selected.length
+  function updateButton() {
+    if (selected.length === 0) {
+      planBtn.disabled = true;
+      countLine.textContent = "Select at least one action";
+    } else {
+      planBtn.disabled = false;
+      countLine.textContent = selected.length + " selected";
+    }
+  }
+
+  // Builds the "you've committed to" summary from whatevers currently in selected
+  planBtn.addEventListener('click', () => {
+    planOutput.innerHTML = `
+      <h2>You've committed to</h2>
+      <ul>${selected.map(item => `<li>${item}</li>`).join('')}</ul>
+      <button class="reset-btn" id="resetBtn">Start over</button>
+    `;
+    planOutput.classList.add('show');
+    document.getElementById('resetBtn').addEventListener('click', resetPlan);
+  });
+
+  // Clears selections and re-renders the checklist from scratch
+  function resetPlan() {
+    selected = [];
+    planOutput.classList.remove('show');
+    planOutput.innerHTML = '';
+    renderActions();
+    updateButton();
+  }
+
+  renderActions();
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
