@@ -1077,26 +1077,84 @@ body {
 
 
 
+
+
 /* ___________________________FAQ page ________________________________ */
 
-.faq-wrap {
-  max-width: 700px;
-  margin: 0 auto;
-  padding: 10px 40px 80px;
+.faq-page {
+  position: relative;
+  padding: 70px 40px 100px;
+  overflow: hidden;
+  background: #1b2c12; /* fallback colour if the image doesn't load for sm reason */
 }
 
+/* the actual bg photo - object-fit cover crops it to fill without stretching */
+.faq-page-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+
+/* dark tint over the photo so text stays readable wherever*/
+.faq-page-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(180deg, rgba(15,26,9,0.5) 0%, rgba(15,26,9,0.72) 100%);
+}
+
+.faq-hero-text {
+  position: relative;
+  z-index: 2; /* needs to sit above the photo + overlay */
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.faq-hero-text h1 {
+  font-size: 32px;
+  color: #f0ecdf;
+}
+
+.faq-hero-text p {
+  font-size: 13.5px;
+  color: rgba(240,236,223,0.75);
+  max-width: 340px;
+  margin: 8px auto 0;
+  line-height: 1.6;
+}
+
+.faq-wrap {
+  position: relative;
+  z-index: 2;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+/* glass card effect - low opacity white + blur of whatever's behind it */
 .faq-item {
-  background: #fff;
-  border-radius: 10px;
-  box-shadow: 0 4px 14px rgba(26,40,18,0.08);
+  background: rgba(255,255,255,0.1);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px); /* for safari or blur doesnt show */
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 14px;
   margin-bottom: 14px;
   overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+  transition: background 0.25s ease, border-color 0.25s ease;
+}
+
+/* brightens up slightly when open so it's obvious which one's expanded */
+.faq-item.open {
+  background: rgba(255,255,255,0.16);
+  border-color: rgba(255,255,255,0.35);
 }
 
 .faq-question {
   width: 100%;
   display: flex;
-  justify-content: space-between;
   align-items: center;
   gap: 16px;
   background: none;
@@ -1104,27 +1162,41 @@ body {
   cursor: pointer;
   text-align: left;
   padding: 18px 22px;
+}
+
+.faq-num {
+  font-family: Georgia, serif;
+  font-size: 20px;
+  color: rgba(240,236,223,0.45);
+  width: 26px;
+  flex-shrink: 0;
+}
+
+.faq-item.open .faq-num {
+  color: #f0ecdf;
+}
+
+.faq-question-text {
+  flex: 1; /* pushes the icon to the far right */
   font-family: Georgia, "Times New Roman", serif;
   font-size: 15px;
-  color: #1a2812;
+  color: #f0ecdf;
 }
 
-.faq-question:hover {
-  background: #fbfaf6;
-}
-
+/* plus rotates 45deg into an x when open so i dont need a seperate icon */
 .faq-icon {
   flex-shrink: 0;
   font-size: 18px;
-  color: #7d8a6a;
-  transition: transform 0.25s ease;
+  color: rgba(240,236,223,0.65);
+  transition: transform 0.25s ease, color 0.25s ease;
 }
 
 .faq-item.open .faq-icon {
   transform: rotate(45deg);
-  color: #1a2812;
+  color: #f0ecdf;
 }
 
+/* closed by default - same max-height trick as the species card  */
 .faq-answer {
   max-height: 0;
   overflow: hidden;
@@ -1132,13 +1204,13 @@ body {
 }
 
 .faq-item.open .faq-answer {
-  max-height: 200px;
+  max-height: 200px; /* should be enough for these answers, revisit if any wrap more on mobile */
 }
 
 .faq-answer p {
-  padding: 0 22px 20px;
+  padding: 0 22px 20px 62px;
   font-size: 13.5px;
-  color: #4a4934;
+  color: rgba(240,236,223,0.85);
   line-height: 1.7;
 }
 
