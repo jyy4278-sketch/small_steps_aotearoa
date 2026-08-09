@@ -342,6 +342,107 @@ if (document.getElementById('grid')) {
 
   render();
 }
+// ________________________ Quiz page __________________
+//keeps it inside the quiz page only so JS does not apply to other pages
+if (document.getElementById('quizWrap')) {
+
+  //array of questions
+  const questions = [
+    { name: "Tūī", isNative: true, img: "images/quiz-tui.jpg" },
+    { name: "Blackbird", isNative: false, img: "images/quiz-blackbird.jpg" },
+    { name: "Kererū", isNative: true, img: "images/quiz-kereru.jpg" },
+    { name: "House sparrow", isNative: false, img: "images/quiz-sparrow.jpg" },
+    { name: "Wētā", isNative: true, img: "images/quiz-weta.jpg" },
+    { name: "Magpie", isNative: false, img: "images/quiz-magpie.jpg" },
+    { name: "Pīwakawaka (Fantail)", isNative: true, img: "images/quiz-fantail.jpg" },
+    { name: "Monarch butterfly", isNative: false, img: "images/quiz-butterfly.jpg" },
+  ];
+
+  let current = 0;
+  let score = 0;
+  const wrap = document.getElementById('quizWrap');
+
+  function renderQuestion() {
+    const q = questions[current];
+    wrap.innerHTML = `
+      <p class="score-line">Question ${current + 1} of ${questions.length} · Score: ${score}</p>
+      <div class="quiz-card">
+        <div class="quiz-img" style="background-image: url('${q.img}')">
+          <span>${q.name}</span>
+        </div>
+        <div class="quiz-buttons">
+          <button id="nativeBtn">Native</button>
+          <button id="notNativeBtn">Not native</button>
+        </div>
+        <p class="feedback" id="feedback"></p>
+      </div>
+      <button class="next-btn" id="nextBtn">Next →</button>
+    `;
+
+    document.getElementById('nativeBtn').addEventListener('click', () => checkAnswer(true));
+    document.getElementById('notNativeBtn').addEventListener('click', () => checkAnswer(false));
+    document.getElementById('nextBtn').addEventListener('click', goNext);
+  }
+
+  function checkAnswer(userSaidNative) {
+    const q = questions[current];
+    const correct = userSaidNative === q.isNative;
+    const feedback = document.getElementById('feedback');
+
+    if (correct) {
+      score++;
+      feedback.textContent = "Correct!";
+      feedback.className = "feedback correct";
+    } else {
+      feedback.textContent = `Not quite. ${q.name} is ${q.isNative ? "native" : "not native"}.`;
+      feedback.className = "feedback wrong";
+    }
+
+    document.getElementById('nativeBtn').disabled = true;
+    document.getElementById('notNativeBtn').disabled = true;
+    document.getElementById('nextBtn').classList.add('show');
+  }
+
+  function goNext() {
+    current++;
+    if (current < questions.length) {
+      renderQuestion();
+    } else {
+      renderEndScreen();
+    }
+  }
+
+  function renderEndScreen() {
+    wrap.innerHTML = `
+      <div class="end-screen">
+        <p>You scored ${score} / ${questions.length}</p>
+        <p>${score === questions.length ? "Perfect score!" : "Take another look at the species page and try again."}</p>
+        <button id="restartBtn">Try again</button>
+      </div>
+    `;
+    document.getElementById('restartBtn').addEventListener('click', restartQuiz);
+  }
+
+  function restartQuiz() {
+    current = 0;
+    score = 0;
+    renderQuestion();
+  }
+
+  renderQuestion();
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -447,6 +548,26 @@ if (document.getElementById('actionsCard')) {
 
 }
 
+
+
+
+
+// ________________________ FAQ page __________________
+// keeps it inside the FAQ page only so JS does not apply to other pages
+if (document.querySelector('.faq-wrap')) {
+
+  //grabs every question button on the page and turns it into a real list we can loop through
+  const faqButtons = document.querySelectorAll('.faq-question');
+
+  faqButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      // .closest() walks up from the button to find its parent .faq-item
+      const item = button.closest('.faq-item');
+      item.classList.toggle('open');
+    });
+  });
+
+}
 
 
 
