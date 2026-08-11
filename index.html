@@ -4,6 +4,10 @@
   <meta charset="UTF-8">
   <title>Small Steps Aotearoa</title>
   <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,500;1,500&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Instrument+Serif:ital@0;1&family=Tinos:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
 </head>
 <body>
   <!-- Hero section - large intro banner with the site's main tagline(change later) -->
@@ -19,15 +23,20 @@
     </div>
   </section>
     <!-- Sticky navigation bar - this is hidden until user scrolls past hero and then sticks to the top -->
-  <nav class="sticky-nav" id="stickyNav">
-    <span class="site-title">Small Steps Aotearoa</span>
-    <div class="links">
-      <a href="index.html" >Home</a>
-      <a href="species.html">Species</a>
-      <a href="quiz.html">Quiz</a>
-      <a href="actions.html">Actions</a>
-      <a href="faq.html">FAQs</a>
-    </div>
+    <nav class="sticky-nav visible" id="stickyNav">
+      <div class="links links-left">
+        <a href="index.html"class="active">Home</a>
+        <a href="species.html" >Species</a>
+      </div>
+    
+      <span class="site-title">Small Steps Aotearoa</span>
+    
+      <div class="links links-right">
+        <a href="quiz.html">Quiz</a>
+        <a href="actions.html">Actions</a>
+        <a href="faq.html">FAQ</a>
+      </div>
+    </nav>
   </nav>
   <!-- Fullscreen menu overlay - opens when Menu button is clicked -->
   <div class="menu-overlay" id="menuOverlay">
@@ -86,15 +95,15 @@
       </div>
     </section>
 <!-- Newsletter signup form - collects user details, region, and content preferences -->
-<section class="newsletter">
-  <h3 class="voice">Join our newsletter</h3>
-  <form onsubmit="return handleSubscribe(event)">
+<section class="newsletter-split">
+  <div class="newsletter-img"></div>
+  <div class="newsletter-form-side">
+    <h3 class="voice">Join our newsletter</h3>
+    <form onsubmit="return handleSubscribe(event)">
 
-    <div class="field-row">
       <div class="field">
         <label for="fname">First name*</label>
         <input type="text" id="fname">
-        <!-- Personalised error message shown here if validation fails(note to self double check if this is working as validation for the inputs) -->
         <p class="field-error" id="fnameError"></p>
       </div>
       <div class="field">
@@ -107,10 +116,7 @@
         <input type="email" id="email">
         <p class="field-error" id="emailError"></p>
       </div>
-    </div>
 
-    <div class="field-row">
-      <!-- Region dropdown - all 16 regions of New Zealand -->
       <div class="field">
         <label for="region">Region*</label>
         <select id="region">
@@ -139,33 +145,32 @@
         <input type="number" id="yob" placeholder="2010">
         <p class="field-error" id="yobError"></p>
       </div>
-    </div>
 
-    <!-- Checkbox group - lets users pick more than one content topic(not mandotary) -->
-    <div class="field-checkbox-group">
-      <label>What would you like to receive updates on?</label>
-      <div class="checkbox-option">
-        <input type="checkbox" id="topic-species" name="topics" value="species">
-        <label for="topic-species">New species spotted in Auckland</label>
+      <div class="field-checkbox-group">
+        <label>What would you like to receive updates on?</label>
+        <div class="checkbox-option">
+          <input type="checkbox" id="topic-species" name="topics" value="species">
+          <label for="topic-species">New species spotted in Auckland</label>
+        </div>
+        <div class="checkbox-option">
+          <input type="checkbox" id="topic-events" name="topics" value="events">
+          <label for="topic-events">Local conservation events</label>
+        </div>
+        <div class="checkbox-option">
+          <input type="checkbox" id="topic-tips" name="topics" value="tips">
+          <label for="topic-tips">Small action tips</label>
+        </div>
       </div>
-      <div class="checkbox-option">
-        <input type="checkbox" id="topic-events" name="topics" value="events">
-        <label for="topic-events">Local conservation events</label>
-      </div>
-      <div class="checkbox-option">
-        <input type="checkbox" id="topic-tips" name="topics" value="tips">
-        <label for="topic-tips">Small action tips</label>
-      </div>
-    </div>
 
-    <div class="checkbox-row">
-      <input type="checkbox" id="verify">
-      <label for="verify">I confirm the above details are correct</label>
-      <p class="field-error" id="verifyError"></p>
-    </div>
+      <div class="checkbox-row">
+        <input type="checkbox" id="verify">
+        <label for="verify">I confirm the above details are correct</label>
+        <p class="field-error" id="verifyError"></p>
+      </div>
 
-    <button type="submit">Subscribe</button>
-  </form>
+      <button type="submit">Subscribe</button>
+    </form>
+  </div>
 </section>
   <!-- Footer - repeated on every page, links to all main sections -->
   <footer>

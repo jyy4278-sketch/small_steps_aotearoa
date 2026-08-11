@@ -116,7 +116,7 @@ if (document.getElementById('prevArrow')) {
   // Uses the current year so the valid range is never outdated - futureproofing - doesn't need to be constantly upadted
   function validateYearOfBirth(value) {
     const currentYear = new Date().getFullYear();
-    const minYear = currentYear - 90; // reasonable oldest possible user
+    const minYear = currentYear - 100; // reasonable oldest possible user
     const maxYear = currentYear - 5;   // reasonable youngest possible user
   
     if (value === '' || isNaN(value)) {
@@ -125,7 +125,7 @@ if (document.getElementById('prevArrow')) {
     }
     const yob = parseInt(value, 10);
     if (yob < minYear || yob > maxYear) {
-      showFieldError('yob', 'Enter a year between ' + minYear + ' and ' + maxYear + '. "' + value + '" is outside that range.');
+      showFieldError('yob', 'Enter a valid birth year between ' + minYear + ' and ' + maxYear + '. "' + value + '" is outside that range.');
       return false;
     }
     showFieldError('yob', '');
@@ -178,7 +178,7 @@ if (document.getElementById('prevArrow')) {
 
 
 //___________________Species page_________________
-// Guarded so this only runs on species.html
+//  so this only runs on species.html
 if (document.getElementById('grid')) {
 
  //array

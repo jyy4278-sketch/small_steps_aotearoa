@@ -5,17 +5,24 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Instrument+Serif:ital@0;1&family=Tinos:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
   </head>
 
 <!-- Sticky navigation bar - on all pages -->
 <nav class="sticky-nav visible" id="stickyNav">
-  <span class="site-title">Small Steps Aotearoa</span>
-  <div class="links">
+  <div class="links links-left">
     <a href="index.html">Home</a>
     <a href="species.html">Species</a>
+  </div>
+
+  <span class="site-title">Small Steps Aotearoa</span>
+
+  <div class="links links-right">
     <a href="quiz.html">Quiz</a>
-    <a href="actions.html" class="active">Actions</a>
-    <a href="faq.html" >FAQ</a>
+    <a href="actions.html"class="active">Actions</a>
+    <a href="faq.html">FAQ</a>
   </div>
 </nav>
 
@@ -42,23 +49,20 @@
   <div class="action-split-img" aria-hidden="true"></div>
 </section>
 <!--Checklist-->
-<div class="actions-wrap">
-  <div class="list-title">
-    <span>Where to start</span>
-    <h2 class="voice">Small changes to try</h2>
-
+<section class="actions-section">
+  <div class="actions-wrap">
+    <div class="list-title">
+      <span>Where to start</span>
+      <h2 class="voice">Small changes to try</h2>
+    </div>
+    <div class="actions-card" id="actionsCard"></div>
+    <div class="plan-btn-row">
+      <button class="plan-btn" id="planBtn" disabled>Commit!</button>
+      <p class="count-line" id="countLine">Select at least one action</p>
+    </div>
+    <div class="plan-output" id="planOutput"></div>
   </div>
-  <div class="actions-card" id="actionsCard">
-  <!--JS list-->
-
-  </div>
-  <div class="plan-btn-row">
-    <button class="plan-btn" id="planBtn" disabled>Commit!</button>
-    <p class="count-line" id="countLine">Select at least one action</p>
-  </div>
-  <div class="plan-output" id="planOutput"></div>
-</div>
-
+</section>
 
 
 
