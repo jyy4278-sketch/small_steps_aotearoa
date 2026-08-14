@@ -1,5 +1,4 @@
-/*note to self change fonts throughout*/
-/* Reset and base styles - removes default browser spacing, sets base font */
+/* reset and base styles - thiswill remove  default browser spacing, sets base font */
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
@@ -17,7 +16,6 @@ body {
     min-height: 560px; 
     overflow:hidden;
 }
-/*figure this out later*/
 .hero-img-placeholder {
     position: absolute;
     inset: 0;
@@ -85,7 +83,7 @@ body {
   .links-right { display: flex; gap: 22px; justify-self: end; }
   
   .sticky-nav .site-title {
-  font-family: Instrumental,Georgia, serif;
+  font-family: Instrumental ,Georgia, serif;
   font-size: 20px;
   letter-spacing: 3px;
   text-transform: uppercase;
@@ -721,7 +719,7 @@ body {
 }
 
 .quiz-wrap {
-  max-width: 420px;
+  max-width: 560px;
   margin: 20px auto 70px;
   padding: 0 20px;
 }
@@ -758,11 +756,11 @@ body {
 }
 .quiz-buttons button {
   flex: 1;
-  padding: 12px;
-  font-size: 14px;
-  border-radius:6px;
+  padding: 14px;
+  font-size: 15px;
+  border-radius: 6px;
   cursor: pointer;
-  border:1px solid #1a2812;
+  border: 1px solid #1a2812;
   background: transparent;
   color: #1a2812;
 }
@@ -775,8 +773,8 @@ body {
   cursor: default;
 }
 .feedback {
-  padding: 0 18px 4px;
-  font-size: 13.5px;
+  padding: 0 30px 15px;
+  font-size: 15px;
   text-align: center;
   min-height: 20px;
   font-family: Georgia, 'Times New Roman', serif;
@@ -804,12 +802,15 @@ body {
   font-family: Georgia, 'Times New Roman', serif;
   font-size: 26px;
   color: #1a2812;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
+  padding: 10px 20px;
+
 }
 .end-screen p:last-child {
   font-size: 13.5px;
   color: #4a4934;
-  margin-bottom: 20px;
+  margin-bottom: 40px;
+
 }
 .end-screen button {
   background: #1a2812;
@@ -830,6 +831,8 @@ body {
 
 
 /* ___________________________Actions page ________________________________ */
+
+/* hero banner */
 .actions-hero {
   position: relative;
   min-height: 480px;
@@ -874,15 +877,6 @@ body {
   padding: 34px clamp(20px, 6vw, 60px) 6%;
 }
 
-.hero-tagline {
-  align-self: flex-end;
-  font-size: 13px;
-  color: rgba(240,236,223,0.75);
-  max-width: 220px;
-  text-align: right;
-  line-height: 1.5;
-}
-
 .hero-text {
   font-size: 12px;
   letter-spacing: 3px;
@@ -895,20 +889,17 @@ body {
   font-optical-sizing: auto;
   font-weight: 700;
   letter-spacing: -0.03em;
+  line-height: 0.8;
 }
 
 .hero-big .line {
   display: block;
   font-size: clamp(64px, 15vw, 210px);
-    color: #ece4d0;
-    text-shadow: 0 10px 30px rgba(0,0,0,0.5), 0 2px 6px rgba(0,0,0,0.35);
+  color: #ece4d0;
+  text-shadow: 0 10px 30px rgba(0,0,0,0.5), 0 2px 6px rgba(0,0,0,0.35);
 }
 
-.line-2 {
-  text-align: left;
-  margin-left: 12vw;
-  margin-top: -0.06em;
-}
+.line-2 { text-align: right; margin-top: -0.06em; }
 
 /* split section: habits framing */
 .action-split {
@@ -939,92 +930,89 @@ body {
   max-width: 320px;
   line-height: 1.65;
 }
+
 .action-split-img {
   position: relative;
   overflow: hidden;
-  background-image: 
+  background-image:
     linear-gradient(160deg, rgba(95,115,80,0.15) 0%, rgba(15,26,9,0.55) 100%),
-    url('images/actions-about.png');
+    url('images/actions-split.jpg');
   background-size: cover;
   background-position: center;
 }
+
 /* checklist */
-.actions-wrap {
-  max-width: 480px;
-  margin: 0 auto;
-  padding: 0 20px;
+.actions-section {
   position: relative;
-  z-index: 1;
+  padding: 44px 0 70px;
 }
 
-.list-title { text-align: center; margin-bottom: 20px; }
-
-.list-title span {
-  font-size: 11px;
-  letter-spacing: 2px;
-  color: #7d8a6a;
-  text-transform: uppercase;
+.actions-wrap {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 0 24px;
 }
+
+.list-title { text-align: center; margin-bottom: 24px; }
 
 .list-title h2 {
-  font-family: Georgia, serif;
-  font-size: 26px;
+  font-family: "Instrument Serif", Georgia, serif;
+
+  font-weight: 400;
+  font-size: clamp(36px, 5vw, 56px);
   color: #1a2812;
-  margin-top: 4px;
 }
 
 .actions-card {
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 6px 20px rgba(26,40,18,0.1);
-  padding: 4px 0;
+  background: transparent;
+  box-shadow: none;
+  padding: 0;
 }
 
 .action-item {
   display: flex;
   align-items: flex-start;
-  gap: 16px;
-  padding: 20px 22px;
-  border-bottom: 1px solid #f0ede2;
+  gap: 14px;
+  padding: 18px 4px 16px;
+  border-bottom: 1.5px solid #c9c0a0;
   cursor: pointer;
-}
-/*hides extra checkbox*/
-.action-item input {
-  display: none;
+  transition: border-color 0.15s ease;
 }
 
-.action-item:last-child { border-bottom: none; }
-.action-item:hover { background: #fbfaf6; }
+.action-item:last-child { border-bottom: 1.5px solid #c9c0a0; }
+.action-item:hover { border-color: #a89f7c; }
+.action-item.checked { border-color: #1a2812; }
 
 .action-num {
   font-family: Georgia, serif;
-  font-size: 22px;
-  color: #d3caae;
-  width: 32px;
+  font-size: 20px;
+  color: #a89f7c;
+  width: 20px;
   flex-shrink: 0;
-  padding-top: 1px;
+  padding-top: 4px;
 }
 
 .action-content { flex: 1; }
 
 .action-content .action-title {
-  font-size: 14.5px;
+  font-size: 17px;
   color: #1a2812;
   font-weight: 600;
-  margin-bottom: 3px;
 }
 
 .action-content .action-desc {
-  font-size: 12px;
-  color: #7d8a6a;
+  font-size: 15px;
+  color: #495734;
   line-height: 1.5;
+  margin-top: 3px;
 }
 
 .action-check {
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  border: 1.5px solid #b3a98d;
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  border: 1.5px solid #8a8264;
+  background: transparent;
   flex-shrink: 0;
   display: flex;
   align-items: center;
@@ -1047,7 +1035,9 @@ body {
 
 .action-item.checked .action-check svg { opacity: 1; }
 
-.plan-btn-row { text-align: center; margin: 20px 0 0; }
+.action-item input { display: none; }
+
+.plan-btn-row { text-align: center; margin: 24px 0 0; }
 
 .plan-btn {
   background: #1a2812;
@@ -1106,33 +1096,6 @@ body {
   font-size: 13px;
   cursor: pointer;
 }
-
-.actions-section {
-  position: relative;
-  padding: 44px 0 70px;
-  overflow: hidden;
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='90' height='90'><rect width='90' height='90' fill='%23e5e2d6'/><path d='M10 75 Q16 45 32 20 Q40 48 20 70Z' fill='%23dcd7c4'/></svg>");
-}
-
-.actions-section::after {
-  content: 'TE TAU 2026';
-  position: absolute;
-  top: 50%;
-  right: 40px;
-  transform: translateY(-50%) rotate(90deg);
-  transform-origin: right center;
-  font-size: 11px;
-  letter-spacing: 4px;
-  color: #b3a98d;
-  white-space: nowrap;
-}
-
-@media (max-width: 900px) {
-  .actions-section::after {
-    display: none;
-  }
-}
-
 
 
 
@@ -1272,7 +1235,6 @@ body {
   color: rgba(240,236,223,0.85);
   line-height: 1.7;
 }
-
 
 
 

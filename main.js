@@ -61,117 +61,169 @@ if (document.getElementById('prevArrow')) {
   
   // Displays a specific error message under a given field, or hides it if there's no error - specfic error prevention
   //this is reused by every validation function below - takes the field's id and the message to show works for each one showing message
-  function showFieldError(fieldId, message) {
-    const errorEl = document.getElementById(fieldId + 'Error');
-    if (message) {
-      errorEl.textContent = message;
-      errorEl.classList.add('show');
-    } else {
-      errorEl.classList.remove('show');
-    }
+
+function showFieldError(fieldId, message) {
+  const errorEl = document.getElementById(fieldId + 'Error');
+  if (message) {
+    errorEl.textContent = message;
+    errorEl.classList.add('show');
+  } else {
+    errorEl.classList.remove('show');
   }
-  
-  //this bit checks a name field isn't empty-returns true if valid,false if not.
-  function validateName(value, fieldId, label) {
-    const trimmed = value.trim();
-    if (trimmed === '') {
-      showFieldError(fieldId, label + ' is required.');
-      return false;
-    }
-    if (trimmed.length < 2){
-      showFieldError(fieldId, label + ' must be at least 2 characters long. "' + trimmed + '" is too short.');
-      return false;
-    }
-    showFieldError(fieldId, '');
-    return true;
-  }
-  
-  //checks the email looks like a real email address using a regular expression(some characters @ and .).
-  function validateEmail(value) {
-    const trimmed = value.trim();
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (trimmed === '') {
-      showFieldError('email', 'Email is required.');
-      return false;
-    }
-    if (!emailPattern.test(trimmed)) {
-      showFieldError('email', '"' + trimmed + '" is not a valid email address. Check for a missing @ or domain (e.g. name@example.com).');
-      return false;
-    }
-    showFieldError('email', '');
-    return true;
-  }
-  
-  // Checks thata region has actually been selected from the dropdown.
-  function validateRegion(value) {
-    if (value === '') {
-      showFieldError('region', 'Please select your region from the list.');
-      return false;
-    }
-    showFieldError('region', '');
-    return true;
-  }
-  
-  // Checks year of birth is a real, sensible year - not just any number(between 1936 and 2021). - might change later to be more narrow or just teens not sure yet
-  // Uses the current year so the valid range is never outdated - futureproofing - doesn't need to be constantly upadted
-  function validateYearOfBirth(value) {
-    const currentYear = new Date().getFullYear();
-    const minYear = currentYear - 100; // reasonable oldest possible user
-    const maxYear = currentYear - 5;   // reasonable youngest possible user
-  
-    if (value === '' || isNaN(value)) {
-      showFieldError('yob', 'Year of birth is required and must be a number.');
-      return false;
-    }
-    const yob = parseInt(value, 10);
-    if (yob < minYear || yob > maxYear) {
-      showFieldError('yob', 'Enter a valid birth year between ' + minYear + ' and ' + maxYear + '. "' + value + '" is outside that range.');
-      return false;
-    }
-    showFieldError('yob', '');
-    return true;
-  }
-  
-  //This will checks the confirmation checkbox has been ticked.
-  function validateVerify(checked) {
-    if (!checked) {
-      showFieldError('verify', 'Please confirm your details are correct before submitting.');
-      return false;
-    }
-    showFieldError('verify', '');
-    return true;
-  }
-  
-  //this runs all the vield validations for input when submited
-  //will only shows the success message if every single field passes.
-  function handleSubscribe(e) {
-    e.preventDefault();
-  
-    const fname = document.getElementById('fname').value;
-    const lname = document.getElementById('lname').value;
-    const email = document.getElementById('email').value;
-    const region = document.getElementById('region').value;
-    const yob = document.getElementById('yob').value;
-    const verified = document.getElementById('verify').checked;
-  
-    //run every check - each one shows its own specific error if it fails
-    const fnameValid = validateName(fname, 'fname', 'First name');
-    const lnameValid = validateName(lname, 'lname', 'Last name');
-    const emailValid = validateEmail(email);
-    const regionValid = validateRegion(region);
-    const yobValid = validateYearOfBirth(yob);
-    const verifyValid = validateVerify(verified);
-  
-    const allValid = fnameValid && lnameValid && emailValid && regionValid && yobValid && verifyValid;
-  
-    if (!allValid) {
-      return false;
-    }
-  
-    alert('Thanks, ' + fname.trim() + '! (Demo only - nothing was saved.)');
-    e.target.reset();
+}
+
+// checks a name field isn't empty, isn't too long, and only has letters in it (no numbers or symbols)
+function validateName(value, fieldId, label) {
+  const trimmed = value.trim();
+
+  if (trimmed === '') {
+    showFieldError(fieldId, label + ' is required.');
     return false;
   }
+
+  if (trimmed.length < 2) {
+    showFieldError(fieldId, label + ' must be at least 2 characters long. "' + trimmed + '" is too short.');
+    return false;
+  }
+
+  if (trimmed.length > 50) {
+    showFieldError(fieldId, label + ' can\'t be more than 50 characters.');
+    return false;
+  }
+
+  // only letters allowed (including ā ē ī ō ū for macrons), plus spaces, hyphens and apostrophes
+  // this covers names like Mary-Jane, O'Connor, and Tāne
+  const namePattern = /^[A-Za-zĀāĒēĪīŌōŪū' -]+$/;
+  if (!namePattern.test(trimmed)) {
+    showFieldError(fieldId, label + ' can only have letters in it. "' + trimmed + '" has numbers or symbols that aren\'t allowed.');
+    return false;
+  }
+
+  showFieldError(fieldId, '');
+  return true;
+}
+
+// checks the email looks like a real email address and isn't too long
+function validateEmail(value) {
+  const trimmed = value.trim();
+  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  if (trimmed === '') {
+    showFieldError('email', 'Email is required.');
+    return false;
+  }
+
+  if (trimmed.length > 100) {
+    showFieldError('email', 'Email can\'t be more than 100 characters.');
+    return false;
+  }
+
+  if (!emailPattern.test(trimmed)) {
+    showFieldError('email', '"' + trimmed + '" is not a valid email address. Check for a missing @ or domain (e.g. name@example.com).');
+    return false;
+  }
+
+  showFieldError('email', '');
+  return true;
+}
+
+// checks that a region has actually been selected from the dropdown
+function validateRegion(value) {
+  if (value === '') {
+    showFieldError('region', 'Please select your region from the list.');
+    return false;
+  }
+  showFieldError('region', '');
+  return true;
+}
+
+// checks year of birth is a real, sensible year (not just any number)
+// uses the current year so the valid range is never outdated
+// gives a specific message depending on whether it's too old, too young, ormaybe nit a number atall
+function validateYearOfBirth(value) {
+  const currentYear = new Date().getFullYear();
+  const minYear = currentYear - 100; // reasonable oldest possible user
+  const maxYear = currentYear - 5;   // reasonable youngest possible user
+
+  if (value === '' || isNaN(value)) {
+    showFieldError('yob', 'Year of birth is required and must be a number.');
+    return false;
+  }
+
+  const yob = parseInt(value, 10);
+
+  if (yob > currentYear) {
+    showFieldError('yob', '"' + value + '" hasn\'t happened yet. Enter your actual birth year.');
+    return false;
+  }
+
+  if (yob > maxYear) {
+    showFieldError('yob', 'You need to be at least 5 years old to sign up. "' + value + '" is too recent.');
+    return false;
+  }
+
+  if (yob < minYear) {
+    showFieldError('yob', '"' + value + '" seems too far back. Enter a birth year after ' + minYear + '.');
+    return false;
+  }
+
+  showFieldError('yob', '');
+  return true;
+}
+// checks that at least one topic checkbox has been ticked
+function validateTopics() {
+  const checkedBoxes = document.querySelectorAll('input[name="topics"]:checked');
+
+  if (checkedBoxes.length === 0) {
+    showFieldError('topics', 'Please pick at least one thing you\'d like updates on.');
+    return false;
+  }
+
+  showFieldError('topics', '');
+  return true;
+}
+
+// checks the confirmation checkbox has been ticked
+function validateVerify(checked) {
+  if (!checked) {
+    showFieldError('verify', 'Please confirm your details are correct before submitting.');
+    return false;
+  }
+  showFieldError('verify', '');
+  return true;
+}
+
+// runs all the field validations when the form is submitted
+// only shows the success message if every single field passes
+function handleSubscribe(e) {
+  e.preventDefault();
+
+  const fname = document.getElementById('fname').value;
+  const lname = document.getElementById('lname').value;
+  const email = document.getElementById('email').value;
+  const region = document.getElementById('region').value;
+  const yob = document.getElementById('yob').value;
+  const verified = document.getElementById('verify').checked;
+
+  // run every check - each one shows its own specific error if it fails
+  const fnameValid = validateName(fname, 'fname', 'First name');
+  const lnameValid = validateName(lname, 'lname', 'Last name');
+  const emailValid = validateEmail(email);
+  const regionValid = validateRegion(region);
+  const yobValid = validateYearOfBirth(yob);
+  const topicsValid = validateTopics();
+  const verifyValid = validateVerify(verified);
+
+  const allValid = fnameValid && lnameValid && emailValid && regionValid && yobValid && topicsValid && verifyValid;
+
+  if (!allValid) {
+    return false;
+  }
+
+  alert('Thanks, ' + fname.trim() + '! (Demo only - nothing was saved.)');
+  e.target.reset();
+  return false;
+}
 
 
 
@@ -181,256 +233,179 @@ if (document.getElementById('prevArrow')) {
 //  so this only runs on species.html
 if (document.getElementById('grid')) {
 
- //array
-  const species = [
-    { en: "Tūī", mi: "Tūī", slug: "tui", freq: 880, category: "bird", status: "native",
-      habitat: "Native bush, gardens with flowering trees", threat: "Cats, loss of nectar-bearing trees",
-      sound: "Loud, varied — bell-like notes and clicks",
-      img: "images/species-tui.jpg"
+  //array
+   const species = [
+     { en: "Tūī", mi: "Tūī", slug: "tui", category: "bird", status: "native",
+       habitat: "Native bush, gardens with flowering trees", threat: "Cats, loss of nectar-bearing trees",
+       sound: "Loud, varied — bell-like notes and clicks",
+       img: "images/species-tui.jpg"
+      },
+     { en: "Kererū", mi: "Kererū", slug: "kereru", category: "bird", status: "native",
+       habitat: "Forest canopy, suburban trees", threat: "Vehicle strikes, predators at nest",
+       sound: "Deep, soft coo; loud wingbeats in flight",
+       img: "images/species-kereru.jpg"
      },
-    { en: "Kererū", mi: "Kererū", slug: "kereru", freq: 220, category: "bird", status: "native",
-      habitat: "Forest canopy, suburban trees", threat: "Vehicle strikes, predators at nest",
-      sound: "Deep, soft coo; loud wingbeats in flight",
-      img: "images/species-kereru.jpg"
-    },
-    { en: "Fantail", mi: "Pīwakawaka", slug: "fantail", freq: 1200, category: "bird", status: "native",
-      habitat: "Bush edges, gardens, almost anywhere with insects", threat: "Cats, especially fledglings",
-      sound: "High, sharp 'cheet' repeated",
-      img: "images/species-fantail.jpg"
-    },
-    { en: "Morepork", mi: "Ruru", slug: "morepork", freq: 330, category: "bird", status: "native",
-      habitat: "Forest and large gardens, active at night", threat: "Habitat loss, vehicle strikes",
-      sound: "Two-note 'more-pork' call at night",
-      img: "images/species-owl.jpg"
-    },
-    { en: "Wētā", mi: "Wētā", slug: "weta", freq: 660, category: "insect", status: "endangered",
-      habitat: "Log piles, dense native vegetation, wētā hotels", threat: "Rats, mice, habitat clearance",
-      sound: "Leg-rubbing chirp, mostly at night",
-      img: "images/species-weta.jpg"
-    },
-    { en: "Kōtare", mi: "Kōtare", slug: "kotare", freq: 990, category: "bird", status: "native",
-      habitat: "Coastal areas, riverbanks, farmland", threat: "Habitat loss along waterways",
-      sound: "Sharp, repeated 'kek-kek-kek'",
-      img: "images/species-kingfisher.jpg"
-    },
-    { en: "Monarch butterfly", mi: "—", slug: "monarch", freq: 0, category: "insect", status: "common",
-      habitat: "Gardens with swan plants", threat: "Introduced, not native, included for comparison",
-      sound: "Silent",
-      img: "images/species-butterfly.jpg"
-    },
-    { en: "Kārearea", mi: "Kārearea", slug: "karearea", freq: 1400, category: "bird", status: "endangered",
-      habitat: "Open country, forest edges", threat: "Habitat loss, collisions",
-      sound: "Fast, high-pitched 'kek-kek-kek-kek'",
-      img: "images/species-hawk.jpg"
-    }
-  ];
-
-  const grid = document.getElementById('grid');
-  const searchInput = document.getElementById('searchInput');
-  const filterBtns = document.querySelectorAll('.filter-btn');
-  const noResults = document.getElementById('noResults');
-  let activeFilter = 'all';
-//turns status code into display words(small helper)
-  function statusLabel(s) {
-    if (s === 'native') return 'Native';
-    if (s === 'endangered') return 'Threatened';
-    return 'Introduced';
-  }
-
-  // Falls back to a bg colour until real photos are added to images
-  function cardBackground(sp) {
-  const placeholderColour = "#2e401f";
-
-  if (sp.img) {
-    return `url('${sp.img}') center / cover no-repeat, ${placeholderColour}`;
-  }
-  return placeholderColour;
-}
-//rebuilds grid
-  function render() {
-    const query = searchInput.value.trim().toLowerCase(); // non-trivial string manipulation(upper to lower case no blanks)
-    const filtered = species.filter(sp => { //need to fix so that you don't need the macron to search
-      const matchesFilter = activeFilter === 'all' || sp.category === activeFilter;
-      const matchesSearch = sp.en.toLowerCase().includes(query) || sp.mi.toLowerCase().includes(query);
-      return matchesFilter && matchesSearch;
-    });
-
-    grid.innerHTML = '';
-    noResults.classList.toggle('show', filtered.length === 0);
-//for those that are left after search
-    filtered.forEach((sp, i) => {
-      const card = document.createElement('div');
-      card.className = 'species-card';
-      card.innerHTML = `
-      <div class="species-img" style="background:${cardBackground(sp)};">
-          <span class="status-pill status-${sp.status}">${statusLabel(sp.status)}</span>
-        </div>
-        <div class="species-body">
-          <p class="en-name">${sp.en}</p>
-          <p class="mi-name">${sp.mi}</p>
-        </div>`;
-      card.addEventListener('click', () => openModal(sp, i));
-      grid.appendChild(card);
-    });
-  }
-//puts into html - formats
-  function openModal(sp, i) {
-    document.getElementById('modalImg').style.background = cardBackground(sp);
-    document.getElementById('modalBody').innerHTML = `
-      <p class="en-name">${sp.en}</p>
-      <p class="mi-name">${sp.mi}</p>
-      <p class="row"><span class="label">Habitat</span>${sp.habitat}</p>
-      <p class="row"><span class="label">Main threat</span>${sp.threat}</p>
-      <p class="row"><span class="label">Sound</span>${sp.sound}</p>
-      <button class="play-btn" id="playBtn" ${sp.freq === 0 ? 'disabled' : ''}>▶ Play call</button>`;
-    document.getElementById('modalBackdrop').classList.add('open');
-//for music
-    const playBtn = document.getElementById('playBtn');
-    if (playBtn && sp.freq > 0) {
-      playBtn.addEventListener('click', () => playSound(sp.slug, sp.freq, playBtn));
-    }
-  }
-
-  // Tries a real recording first; if it's missing, falls back to sound
-  // placeholder tone so the button always does something rather than failing silently.
-  function playSound(slug, freq, btnEl) {
-    const audio = document.getElementById('soundPlayer');
-    audio.src = `sounds/${slug}.mp3`;
-    btnEl.disabled = true;
-    btnEl.textContent = '♪ Playing...';
-
-    audio.play()
-      .then(() => { audio.onended = () => resetBtn(btnEl); })
-      .catch(() => {
-        const ctx = new (window.AudioContext || window.webkitAudioContext)();
-        const osc = ctx.createOscillator();
-        const gain = ctx.createGain();
-        osc.frequency.value = freq;
-        osc.type = 'sine';
-        gain.gain.setValueAtTime(0.15, ctx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.6);
-        osc.connect(gain).connect(ctx.destination);
-        osc.start();
-        osc.stop(ctx.currentTime + 0.6);
-        osc.onended = () => { resetBtn(btnEl); ctx.close(); };
-      });
-  }
-
-  function resetBtn(btnEl) {
-    if (!btnEl) return;
-    btnEl.disabled = false;
-    btnEl.textContent = '▶ Play call';
-  }
-
-  function closeModal() {
-    document.getElementById('modalBackdrop').classList.remove('open');
-  }
-  document.getElementById('modalCloseBtn').addEventListener('click', closeModal);
-  document.getElementById('modalBackdrop').addEventListener('click', (e) => {
-    if (e.target.id === 'modalBackdrop') closeModal();
-  });
-
-  searchInput.addEventListener('input', render); // GUI event — live filtering as you type
-  filterBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      filterBtns.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      activeFilter = btn.dataset.filter;
-      render();
-    });
-  });
-
-  render();
-}
-// ________________________ Quiz page __________________
-//keeps it inside the quiz page only so JS does not apply to other pages
-if (document.getElementById('quizWrap')) {
-
-  //array of questions
-  const questions = [
-    { name: "Tūī", isNative: true, img: "images/quiz-tui.jpg" },
-    { name: "Blackbird", isNative: false, img: "images/quiz-blackbird.jpg" },
-    { name: "Kererū", isNative: true, img: "images/quiz-kereru.jpg" },
-    { name: "House sparrow", isNative: false, img: "images/quiz-sparrow.jpg" },
-    { name: "Wētā", isNative: true, img: "images/quiz-weta.jpg" },
-    { name: "Magpie", isNative: false, img: "images/quiz-magpie.jpg" },
-    { name: "Pīwakawaka (Fantail)", isNative: true, img: "images/quiz-fantail.jpg" },
-    { name: "Monarch butterfly", isNative: false, img: "images/quiz-butterfly.jpg" },
-  ];
-
-  let current = 0;
-  let score = 0;
-  const wrap = document.getElementById('quizWrap');
-
-  function renderQuestion() {
-    const q = questions[current];
-    wrap.innerHTML = `
-      <p class="score-line">Question ${current + 1} of ${questions.length} · Score: ${score}</p>
-      <div class="quiz-card">
-        <div class="quiz-img" style="background-image: url('${q.img}')">
-          <span>${q.name}</span>
-        </div>
-        <div class="quiz-buttons">
-          <button id="nativeBtn">Native</button>
-          <button id="notNativeBtn">Not native</button>
-        </div>
-        <p class="feedback" id="feedback"></p>
-      </div>
-      <button class="next-btn" id="nextBtn">Next →</button>
-    `;
-
-    document.getElementById('nativeBtn').addEventListener('click', () => checkAnswer(true));
-    document.getElementById('notNativeBtn').addEventListener('click', () => checkAnswer(false));
-    document.getElementById('nextBtn').addEventListener('click', goNext);
-  }
-
-  function checkAnswer(userSaidNative) {
-    const q = questions[current];
-    const correct = userSaidNative === q.isNative;
-    const feedback = document.getElementById('feedback');
-
-    if (correct) {
-      score++;
-      feedback.textContent = "Correct!";
-      feedback.className = "feedback correct";
-    } else {
-      feedback.textContent = `Not quite. ${q.name} is ${q.isNative ? "native" : "not native"}.`;
-      feedback.className = "feedback wrong";
-    }
-
-    document.getElementById('nativeBtn').disabled = true;
-    document.getElementById('notNativeBtn').disabled = true;
-    document.getElementById('nextBtn').classList.add('show');
-  }
-
-  function goNext() {
-    current++;
-    if (current < questions.length) {
-      renderQuestion();
-    } else {
-      renderEndScreen();
-    }
-  }
-
-  function renderEndScreen() {
-    wrap.innerHTML = `
-      <div class="end-screen">
-        <p>You scored ${score} / ${questions.length}</p>
-        <p>${score === questions.length ? "Perfect score!" : "Take another look at the species page and try again."}</p>
-        <button id="restartBtn">Try again</button>
-      </div>
-    `;
-    document.getElementById('restartBtn').addEventListener('click', restartQuiz);
-  }
-
-  function restartQuiz() {
-    current = 0;
-    score = 0;
-    renderQuestion();
-  }
-
-  renderQuestion();
-}
+     { en: "Fantail", mi: "Pīwakawaka", slug: "fantail", category: "bird", status: "native",
+       habitat: "Bush edges, gardens, almost anywhere with insects", threat: "Cats, especially fledglings",
+       sound: "High, sharp 'cheet' repeated",
+       img: "images/species-fantail.jpg"
+     },
+     { en: "Morepork", mi: "Ruru", slug: "morepork", category: "bird", status: "native",
+       habitat: "Forest and large gardens, active at night", threat: "Habitat loss, vehicle strikes",
+       sound: "Two-note 'more-pork' call at night",
+       img: "images/species-owl.jpg"
+     },
+     { en: "Wētā", mi: "Wētā", slug: "weta", category: "insect", status: "endangered",
+       habitat: "Log piles, dense native vegetation, wētā hotels", threat: "Rats, mice, habitat clearance",
+       sound: "Leg-rubbing chirp, mostly at night",
+       img: "images/species-weta.jpg"
+     },
+     { en: "Kōtare", mi: "Kōtare", slug: "kotare", category: "bird", status: "native",
+       habitat: "Coastal areas, riverbanks, farmland", threat: "Habitat loss along waterways",
+       sound: "Sharp, repeated 'kek-kek-kek'",
+       img: "images/species-kingfisher.jpg"
+     },
+     { en: "Monarch butterfly", mi: "—", slug: "monarch", category: "insect", status: "common",
+       habitat: "Gardens with swan plants", threat: "Introduced, not native, included for comparison",
+       sound: "Silent",
+       img: "images/species-butterfly.jpg"
+     },
+     { en: "Kārearea", mi: "Kārearea", slug: "karearea", category: "bird", status: "endangered",
+       habitat: "Open country, forest edges", threat: "Habitat loss, collisions",
+       sound: "Fast, high-pitched 'kek-kek-kek-kek'",
+       img: "images/species-hawk.jpg"
+     },
+       { en: "Pūkeko", mi: "Pūkeko", slug: "pukeko", category: "bird", status: "native",
+       habitat: "Wetlands, parks, damp grassy areas", threat: "Vehicle strikes, habitat drainage",
+       sound: "Loud, sharp shriek, especially at dawn",
+       img: "images/species-pukeko.jpg"
+       },
+     { en: "Silvereye", mi: "Tauhou", slug: "silvereye", category: "bird", status: "native",
+       habitat: "Gardens, orchards, native and exotic trees", threat: "Cats, window strikes",
+       sound: "High, thin, constant chirping, often in flocks",
+       img: "images/species-silvereye.jpg"
+         },
+     { en: "Grey warbler", mi: "Riroriri", slug: "warbler", category: "bird", status: "native",
+       habitat: "Native bush, scrub, suburban gardens with trees", threat: "Introduced wasps eating eggs and chicks",
+       sound: "Long, wavering trill, one of NZ's few resident songbirds",
+       img: "images/species-wabler.jpg"
+     },
+     { en: "Cicada", mi: "Kihikihi", slug: "cicada", category: "insect", status: "native",
+       habitat: "Trees and shrubs, most active in summer heat", threat: "Habitat loss, pesticides",
+       sound: "Loud, continuous buzzing/droning through summer afternoons",
+       img: "images/species-cicada.jpg"
+     },
+     { en: "New Zealand praying mantis", mi: "Pepeke nguturoa", slug: "mantis", category: "insect", status: "endangered",
+       habitat: "Native shrubs and long grass", threat: "Competition from the introduced South African mantis",
+       sound: "Silent",
+       img: "images/species-mantis.jpg"
+     },
+     { en: "Huhu beetle", mi: "Huhu", slug: "huhu", category: "insect", status: "native",
+       habitat: "Dead or rotting native trees, log piles", threat: "Removal of dead wood and old trees",
+       sound: "Silent, but larvae make an audible chewing sound inside wood",
+       img: "images/species-huhu.jpg"
+     },
+     { en: "Shining cuckoo", mi: "Pīpīwharauroa", slug: "cuckoo", category: "bird", status: "native",
+           habitat: "Native and exotic forest, arrives in spring from the Pacific Islands", threat: "Habitat loss, decline of grey warbler (its host species)",
+           sound: "Rising, whistled 'sweet-sweet' call, often heard before it's seen",
+           img: "images/species-cuckoo.jpg"
+         }
+     ];
+ 
+   const grid = document.getElementById('grid');
+   const searchInput = document.getElementById('searchInput');
+   const filterBtns = document.querySelectorAll('.filter-btn');
+   const noResults = document.getElementById('noResults');
+   let activeFilter = 'all';
+ 
+   //turns status code into display words(small helper)
+   function statusLabel(s) {
+     if (s === 'native') return 'Native';
+     if (s === 'endangered') return 'Threatened';
+     return 'Introduced';
+   }
+ 
+   // Falls back to a bg colour until real photos are added to images
+   function cardBackground(sp) {
+     const placeholderColour = "#2e401f";
+ 
+     if (sp.img) {
+       return `url('${sp.img}') center / cover no-repeat, ${placeholderColour}`;
+     }
+     return placeholderColour;
+   }
+ 
+   //this swaps macron vowels for plain ones so "tui" also matches "tūī"
+   function stripMacrons(str) {
+     return str
+       .replace(/ā/g, "a")
+       .replace(/ē/g, "e")
+       .replace(/ī/g, "i")
+       .replace(/ō/g, "o")
+       .replace(/ū/g, "u");
+   }
+ 
+   //rebuilds grid
+   function render() {
+     const query = stripMacrons(searchInput.value.trim().toLowerCase()); // non-trivial string manipulation(upper to lower case)
+     const filtered = species.filter(sp => { //need to fix so that you don't need the macron to search
+       const matchesFilter = activeFilter === 'all' || sp.category === activeFilter;
+       const matchesSearch = stripMacrons(sp.en.toLowerCase()).includes(query) || stripMacrons(sp.mi.toLowerCase()).includes(query);
+       return matchesFilter && matchesSearch;
+     });
+ 
+     grid.innerHTML = '';
+     noResults.classList.toggle('show', filtered.length === 0);
+ 
+     //for those that are left after search
+     filtered.forEach((sp, i) => {
+       const card = document.createElement('div');
+       card.className = 'species-card';
+       card.innerHTML = `
+       <div class="species-img" style="background:${cardBackground(sp)};">
+           <span class="status-pill status-${sp.status}">${statusLabel(sp.status)}</span>
+         </div>
+         <div class="species-body">
+           <p class="en-name">${sp.en}</p>
+           <p class="mi-name">${sp.mi}</p>
+         </div>`;
+       card.addEventListener('click', () => openModal(sp));
+       grid.appendChild(card);
+     });
+   }
+ 
+   //puts into html - formats
+   function openModal(sp) {
+     document.getElementById('modalImg').style.background = cardBackground(sp);
+     document.getElementById('modalBody').innerHTML = `
+       <p class="en-name">${sp.en}</p>
+       <p class="mi-name">${sp.mi}</p>
+       <p class="row"><span class="label">Habitat</span>${sp.habitat}</p>
+       <p class="row"><span class="label">Main threat</span>${sp.threat}</p>
+       <p class="row"><span class="label">Sound</span>${sp.sound}</p>`;
+     document.getElementById('modalBackdrop').classList.add('open');
+   }
+ 
+   function closeModal() {
+     document.getElementById('modalBackdrop').classList.remove('open');
+   }
+   document.getElementById('modalCloseBtn').addEventListener('click', closeModal);
+   document.getElementById('modalBackdrop').addEventListener('click', (e) => {
+     if (e.target.id === 'modalBackdrop') closeModal();
+   });
+ 
+   searchInput.addEventListener('input', render); // GUI event — live filtering as you type
+   filterBtns.forEach(btn => {
+     btn.addEventListener('click', () => {
+       filterBtns.forEach(b => b.classList.remove('active'));
+       btn.classList.add('active');
+       activeFilter = btn.dataset.filter;
+       render();
+     });
+   });
+ 
+   render();
+ }
 
 
 
@@ -451,7 +426,7 @@ if (document.getElementById('quizWrap')) {
 
 
 // ________________________ Actions page __________________
-//keeps it inside the quiz page only so JS does not apply to other pages
+//keeps it inside the this page only so JS does not apply to other pages
 if (document.getElementById('actionsCard')) {
 
   // Array of objects — each action has the habit itself and why it matters
@@ -547,6 +522,101 @@ if (document.getElementById('actionsCard')) {
   renderActions();
 
 }
+
+
+
+
+// ________________________ Quiz page __________________
+//keeps it inside the quiz page only so JS does not apply to other pages
+if (document.getElementById('quizWrap')) {
+
+  //array of questions
+  const questions = [
+    { name: "Tūī", isNative: true, img: "images/quiz-tui.jpg" },
+    { name: "Blackbird", isNative: false, img: "images/quiz-blackbird.jpg" },
+    { name: "Kererū", isNative: true, img: "images/quiz-kereru.jpg" },
+    { name: "House sparrow", isNative: false, img: "images/quiz-sparrow.jpg" },
+    { name: "Wētā", isNative: true, img: "images/quiz-weta.jpg" },
+    { name: "Magpie", isNative: false, img: "images/quiz-magpie.jpg" },
+    { name: "Pīwakawaka (Fantail)", isNative: true, img: "images/quiz-fantail.jpg" },
+    { name: "Monarch butterfly", isNative: false, img: "images/quiz-butterfly.jpg" },
+  ];
+//starting point
+  let current = 0;
+  let score = 0;
+  const wrap = document.getElementById('quizWrap');
+//html for questions
+  function renderQuestion() {
+    const q = questions[current];
+    wrap.innerHTML = `
+      <p class="score-line">Question ${current + 1} of ${questions.length} · Score: ${score}</p>
+      <div class="quiz-card">
+        <div class="quiz-img" style="background-image: url('${q.img}')">
+          <span>${q.name}</span>
+        </div>
+        <div class="quiz-buttons">
+          <button id="nativeBtn">Native</button>
+          <button id="notNativeBtn">Not native</button>
+        </div>
+        <p class="feedback" id="feedback"></p>
+      </div>
+      <button class="next-btn" id="nextBtn">Next →</button>
+    `;
+//responds to buttons
+    document.getElementById('nativeBtn').addEventListener('click', () => checkAnswer(true));
+    document.getElementById('notNativeBtn').addEventListener('click', () => checkAnswer(false));
+    document.getElementById('nextBtn').addEventListener('click', goNext);
+  }
+
+  function checkAnswer(userSaidNative) {
+    const q = questions[current];
+    const correct = userSaidNative === q.isNative;
+    const feedback = document.getElementById('feedback');
+//response if wrong/right
+    if (correct) {
+      score++;
+      feedback.textContent = "Correct!";
+      feedback.className = "feedback correct";
+    } else {
+      feedback.textContent = `Not quite. ${q.name} is ${q.isNative ? "native" : "not native"}.`;
+      feedback.className = "feedback wrong";
+    }
+
+    document.getElementById('nativeBtn').disabled = true;
+    document.getElementById('notNativeBtn').disabled = true;
+    document.getElementById('nextBtn').classList.add('show');
+  }
+
+  function goNext() {
+    current++;
+    if (current < questions.length) {
+      renderQuestion();
+    } else {
+      renderEndScreen();
+    }
+  }
+
+  function renderEndScreen() {
+    wrap.innerHTML = `
+      <div class="end-screen">
+        <p>You scored ${score} / ${questions.length}</p>
+        <p>${score === questions.length ? "Perfect score!" : "Take another look at the species page and try again."}</p>
+        <button id="restartBtn">Try again</button>
+      </div>
+    `;
+    document.getElementById('restartBtn').addEventListener('click', restartQuiz);
+  }
+
+  function restartQuiz() {
+    current = 0;
+    score = 0;
+    renderQuestion();
+  }
+
+  renderQuestion();
+}
+
+
 
 
 
